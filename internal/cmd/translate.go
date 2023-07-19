@@ -21,7 +21,7 @@ const (
 	{{.appName}} {{.command}} sbom.spdx.json -f cyclonedx           translate SPDX to CycloneDX
 	{{.appName}} {{.command}} sbom.cdx.json  -f spdx                translate CycloneDX to SPDX
 	{{.appName}} {{.command}} sbom.cdx.json  -f cyclonedx -V 1.5    select specific version
-	{{.appName}} {{.command}} sbom.cdx.json -f spdx -E text         select specific encoding
+	{{.appName}} {{.command}} sbom.cdx.json  -f spdx -E text         select specific encoding
 	{{.appName}} {{.command}} sbom.cdx.json  -o sbom.spdx.json      output to file
 	`
 	CommandName               = "translate"
