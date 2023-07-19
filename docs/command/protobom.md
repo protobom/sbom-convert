@@ -34,9 +34,9 @@ Flags for `protobom`
 
 	protobom  sbom.spdx.json -f cyclonedx           translate SPDX to CycloneDX
 	protobom  sbom.cdx.json  -f spdx                translate CycloneDX to SPDX
-	protobom  sbom.cdx.json  -o sbom.spdx.json      output to file
 	protobom  sbom.cdx.json  -f cyclonedx -V 1.5    select specific version
-	protobom  sbom.spdx.json -f spdx -E text        select specific encoding
+	protobom  sbom.cdx.json -f spdx -E text         select specific encoding
+	protobom  sbom.cdx.json  -o sbom.spdx.json      output to file
 	
 ```
 
