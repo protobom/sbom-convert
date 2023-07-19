@@ -14,6 +14,10 @@ const (
 	DefaultCycloneDXVersion = formats.CDX14JSON
 )
 
+var (
+	DefaultsFormatsList = []formats.Format{DefaultSPDXVersion, DefaultCycloneDXVersion}
+)
+
 func NewTranslator() *Translator {
 	return &Translator{
 		impl: &defaultTranslatorImplementation{},

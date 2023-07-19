@@ -1,0 +1,75 @@
+env:
+  - DESCRIPTION="translate an SBOM into another format"
+  - GO111MODULE=on
+
+release:
+  prerelease: auto
+  draft: false
+
+builds:
+
+  - id: main
+    binary: '{{ tolower .ProjectName }}'
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    ldflags: |
+      -w
+      -s
+      -extldflags '-static'
+      -X {{ .ModulePath }}/internal/cmd.version={{.Version}}
+
+  - id: windows-build
+    binary: '{{ tolower .ProjectName }}'
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+    goarch:
+      - amd64    
+      - 386      
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    ldflags: |
+      -w
+      -s
+      -extldflags '-static'
+      -X {{ .ModulePath }}/internal/cmd.version={{.Version}}
+
+archives:
+  - id: "{{ .ProjectName }}.tar.gz"
+    name_template: '{{.ProjectName}}_{{.Version}}_{{.Os}}-{{.Arch}}'
+    format_overrides:
+      - goos: windows
+        format: zip
+    builds:
+      - main
+      - windows-build
+    allow_different_binary_count: true
+
+dockers:
+  - dockerfile: docker/Dockerfile
+    image_templates:
+      - "bom-squad/{{ tolower .ProjectName }}:{{ .Tag }}"
+      - "bom-squad/{{ tolower .ProjectName }}:latest"
+    ids:
+      - main
+    goarch: amd64
+    build_flag_templates:
+      - "--build-arg=BUILD_DATE={{.Date}}"
+      - "--build-arg=BUILD_VERSION={{.Version}}"
+      - "--build-arg=VCS_REF={{.FullCommit}}"
+      - "--build-arg=VCS_URL={{.GitURL}}"
+      - "--build-arg=BUILD_VERSION={{.Version}}"
+      - "--build-arg=DISCRIPTION={{.Env.DESCRIPTION}}"
+      - "--build-arg=PROJECT_NAME={{.ProjectName}}"
+      
+    use: buildx
+    skip_push: false
+    extra_files:
+      - docker/entrypoint.sh

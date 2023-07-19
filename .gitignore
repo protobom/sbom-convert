@@ -19,3 +19,8 @@
 
 # Go workspace file
 go.work
+
+ci_generate
+.tmp
+dist
+snapshot

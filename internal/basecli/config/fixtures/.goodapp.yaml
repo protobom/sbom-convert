@@ -1,0 +1,4 @@
+log_level: 3
+output_directory: output_directory_value
+str: teststr_value
+int: 10
