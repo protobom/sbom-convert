@@ -4,7 +4,7 @@ translate an SBOM into another format
 
 ### Synopsis
 
-translate an SBOM into another format
+Translate between SBOM formats, Bridging the gap between spdx and cyclonedx
 
 ```
 protobom [path] [flags]
@@ -24,8 +24,8 @@ Flags for `protobom`
 | -o | --output | Output path | |
 | -q | --quiet | Suppress all logging output | |
 | | --structured | Enable structured logger | |
-| -V | --ver | Select Specific version, options=map[cyclonedx:[1.4 1.5] spdx:[2.2 2.3]] (default map[cyclonedx:1.4 spdx:2.3]) | |
-| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug | |
+| -V | --ver | Select Specific version, options=map[cyclonedx:[1.4 1.5] spdx:[2.3 2.2]] (default map[cyclonedx:1.4 spdx:2.3]) | |
+| -v | --verbose | Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug, [-vvv,--verbose=3] = trace | |
 
 
 ### Examples for running `protobom`

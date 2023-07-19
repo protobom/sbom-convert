@@ -21,7 +21,7 @@ var basicArgs = []Argument{
 
 var loggerArgs = []Argument{
 	{ConfigID: "logger.level", LongName: "level", ShortName: "D", Message: fmt.Sprintf("Log depth level, options=%v", logrus.AllLevels), Default: ""},
-	{ConfigID: "logger.verbose", LongName: "verbose", ShortName: "v", Message: "Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug", Default: struct{}{}, IsCliOnly: false},
+	{ConfigID: "logger.verbose", LongName: "verbose", ShortName: "v", Message: "Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug, [-vvv,--verbose=3] = trace", Default: struct{}{}, IsCliOnly: false},
 	{ConfigID: "logger.quiet", LongName: "quiet", ShortName: "q", Message: "Suppress all logging output", Default: DefaultBaseApplication.Logger.Quiet},
 	{ConfigID: "logger.structured", LongName: "structured", ShortName: "", Message: "Enable structured logger", Default: false, IsHidden: false},
 }
