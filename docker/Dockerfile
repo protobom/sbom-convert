@@ -27,7 +27,6 @@ LABEL io.artifacthub.package.license=Apache-2.0
 
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build / /
-RUN /bin/mkdir -p /etc/scribe/keys /home/scribe/
 COPY . /home/
 WORKDIR /home/
 
