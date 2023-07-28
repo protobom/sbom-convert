@@ -1,12 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/bom-squad/go-cli/internal/cmd"
+	"github.com/bom-squad/go-cli/cmd/cli"
 )
 
 func main() {
-	fmt.Println("hooo")
-	cmd.Execute()
+	cli.Execute()
 }

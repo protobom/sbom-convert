@@ -34,7 +34,10 @@ func init() {
 }
 
 func Execute() {
-	rootCmd.Execute()
+	err := rootCmd.Execute()
+	if err != nil {
+		panic(err)
+	}
 }
 
 func initLogging(*cobra.Command, []string) error {

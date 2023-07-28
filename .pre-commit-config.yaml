@@ -12,7 +12,6 @@ repos:
     rev: v1.0.0-rc.1
     hooks:
       - id: go-mod-tidy
-      - id: golangci-lint
       - id: go-test-mod
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v9.5.0
@@ -20,3 +19,10 @@ repos:
       - id: commitlint
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
+
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.53.3
+    hooks:
+      - id: golangci-lint
+        args: ["--timeout", "10m", "--fix"]
+        exclude: ^vendor/

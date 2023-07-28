@@ -7,9 +7,10 @@ import (
 	"os"
 	"strings"
 
-	translate "github.com/bom-squad/go-cli/pkg"
 	"github.com/bom-squad/protobom/pkg/formats"
 	"github.com/spf13/cobra"
+
+	translate "github.com/bom-squad/go-cli/pkg"
 )
 
 type TranslateOptions struct {

@@ -38,11 +38,10 @@
         "go.gopath": "/go",
         "go.goroot": "/usr/local/go",
         "go.lintTool": "golangci-lint",
-        "go.lintFlags": [
-          "--fast",
-          "--timeout",
-          "5m"
-        ],
+        "go.lintFlags": ["--fast", "--timeout", "5m"],
+        "gopls": {
+          "formatting.gofumpt": true
+        },
         "[json]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
@@ -53,11 +52,7 @@
     }
   },
   "remoteUser": "vscode",
-  "runArgs": [
-    "--cap-add=SYS_PTRACE",
-    "--security-opt",
-    "seccomp=unconfined"
-  ],
+  "runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "features": {
@@ -75,9 +70,7 @@
       "version": "20"
     },
     "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
-      "plugins": [
-        "docker docker-compose vscode colorize golang github git"
-      ]
+      "plugins": ["docker docker-compose vscode colorize golang github git"]
     }
   }
 }
