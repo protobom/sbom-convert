@@ -1,11 +1,11 @@
 # protobom demo CLI
 
-This repository contains an example CLI and translation API based on the protobom 
+This repository contains an example CLI and translation API based on the protobom
 [protobom](https://github.com/bom-squad/protobom) libraries. The intent of this repo
 is to propose a clear separation between two API levels and the CLI.
 
 The CLI implemented in this repo adds on top of the protobom API
-and defines an exportable `translate` package that has a very simple 
+and defines an exportable `translate` package that has a very simple
 object to perform the translation.
 
 The architecture of the CLI looks more or less like this:
@@ -36,7 +36,7 @@ The utility has a single `translate` subcommand. In its simplest invocation
 it will read an SBOM from the first argument, and translate to the "inverse"
 format. The translate package defines a default version and encoding of both
 CycloneDX and SPDX. If the CLI ingests an SBOM of one format, it will output
-to the default version of the other. Another format can be specified too 
+to the default version of the other. Another format can be specified too
 using the `--format` flag:
 
 
@@ -63,7 +63,7 @@ Here is a sample run ingesting the SPDX document in the samples directory:
 
 ```
 ❯ protobom translate samples/bom.spdx.json --log-level=debug
-DEBU Setting commands globally into verbose mode  
+DEBU Setting commands globally into verbose mode
 DEBU Using log level "debug"                       file="cmd/root.go:41"
 format: text/spdx version: 2.3 encoding: json
 DEBU computing inverse format: application/vnd.cyclonedx+json;version=1.4  file="pkg/implementation.go:89"

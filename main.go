@@ -1,7 +1,9 @@
 package main
 
-import "github.com/bom-squad/go-cli/internal/cmd"
+import (
+	"github.com/bom-squad/go-cli/cmd/cli"
+)
 
 func main() {
-	cmd.Execute()
+	cli.Execute()
 }
