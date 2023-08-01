@@ -2,7 +2,7 @@
 
 PYTHON_UTILS=("yamllint" "pre-commit")
 GITHUB_UTILS=("")
-GOLANG_UTILS=("github.com/google/yamlfmt/cmd/yamlfmt@latest")
+GOLANG_UTILS=("github.com/google/yamlfmt/cmd/yamlfmt@latest" "github.com/goreleaser/goreleaser@latest")
 APT_UTILS=("shellcheck" "vim")
 NODE_UTILS=("@commitlint/cli" "@commitlint/config-conventional")
 set -e

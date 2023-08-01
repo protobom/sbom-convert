@@ -2,7 +2,8 @@ package cli
 
 import (
 	"context"
-	"log"
+	"fmt"
+	"os"
 )
 
 func Execute() {
@@ -10,13 +11,13 @@ func Execute() {
 
 	rootCmd := NewRootCmd()
 
-	// TODO: make logger configurable
 	// TODO: make embedded config on build time
 	// if err := config.New().Load(); err != nil {
 	// log.Fatalf("unable to load config: %v", err)
 	//}
 
 	if err := rootCmd.ExecuteContext(ctx); err != nil {
-		log.Fatalf("[ERROR] %v", err)
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
 	}
 }

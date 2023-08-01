@@ -7,6 +7,10 @@ import (
 	mcobra "github.com/muesli/mango-cobra"
 	"github.com/muesli/roff"
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
+
+	"github.com/bom-squad/go-cli/cmd/cli/options"
+	"github.com/bom-squad/go-cli/pkg/log"
 )
 
 var version = "dev"
@@ -34,8 +38,9 @@ func ManCommand(root *cobra.Command) *cobra.Command {
 }
 
 func NewRootCmd() *cobra.Command {
+	ro := &options.RootOptions{}
 	rootCmd := &cobra.Command{
-		Use:     "",
+		Use:     "sbom-convert",
 		Version: version,
 		Short:   "",
 		Long:    ``,
@@ -43,7 +48,16 @@ func NewRootCmd() *cobra.Command {
 		CompletionOptions: cobra.CompletionOptions{
 			HiddenDefaultCmd: true,
 		},
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			if err := validateRootOptions(ro); err != nil {
+				return err
+			}
+			return setupLogger(ro)
+		},
+		SilenceErrors: true,
 	}
+
+	ro.AddFlags(rootCmd)
 
 	// Commands
 	rootCmd.AddCommand(ConvertCommand())
@@ -51,4 +65,30 @@ func NewRootCmd() *cobra.Command {
 	// Manpages
 	rootCmd.AddCommand(ManCommand(rootCmd))
 	return rootCmd
+}
+
+func validateRootOptions(_ *options.RootOptions) error {
+	return nil
+}
+
+func setupLogger(ro *options.RootOptions) error {
+	level := zap.WarnLevel
+	if ro.Verbose {
+		level = zap.InfoLevel
+	}
+
+	if ro.Debug {
+		level = zap.DebugLevel
+	}
+
+	log, err := log.NewLogger(
+		log.WithLevel(level),
+		log.WithGlobalLogger(),
+	)
+	if err != nil {
+		return err
+	}
+
+	log.Debug("logger initialized")
+	return nil
 }

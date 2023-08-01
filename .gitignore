@@ -349,3 +349,4 @@ dist/
 bin/
 completions/
 manpages/
+!log

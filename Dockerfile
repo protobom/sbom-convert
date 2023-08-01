@@ -5,6 +5,9 @@ RUN apk add --no-cache \
 	docker-cli \
 	tini
 
+COPY scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
 CMD [ "-h" ]
 

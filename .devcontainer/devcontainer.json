@@ -14,7 +14,8 @@
   "containerEnv": {
     "HISTFILE": "/home/vscode/.zsh_history",
     "HISTSIZE": "1000000",
-    "SAVEHIST": "1000000"
+    "SAVEHIST": "1000000",
+    "ORG_NAME": "bom-squad"
   },
   "postCreateCommand": ".devcontainer/post-create.sh",
   "customizations": {
