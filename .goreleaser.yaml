@@ -122,7 +122,7 @@ publishers:
     - packages
     env:
     - 'FURY_TOKEN={{ .Env.FURY_TOKEN }}'
-    - 'FURY_ORG={{ .Env.ORG_NAME }}'
+    - 'FURY_ORG=bom-squad' # '{{ .Env.ORG_NAME }}'
     cmd: ./scripts/fury-upload.sh {{ .ArtifactName }}
 
 scoops:
