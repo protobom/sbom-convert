@@ -122,13 +122,13 @@ publishers:
     - packages
     env:
     - 'FURY_TOKEN={{ .Env.FURY_TOKEN }}'
-    - 'FURY_ORG=bom-squad' # '{{ .Env.ORG_NAME }}'
+    - 'FURY_ORG={{ .Env.ORG_NAME }}'
     cmd: ./scripts/fury-upload.sh {{ .ArtifactName }}
 
 scoops:
   -
     repository:
-      owner: bom-squad # '{{ .Env.ORG_NAME }}'
+      owner:  '{{ .Env.ORG_NAME }}'
       name: scoop-bucket
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     description: A tool to convert between different Software Bill of Materials (SBOM) formats.
@@ -136,7 +136,7 @@ scoops:
 
 brews:
   - repository:
-      owner: bom-squad # '{{ .Env.ORG_NAME }}'
+      owner: '{{ .Env.ORG_NAME }}'
       name: homebrew-tap
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     goarm: "7"
