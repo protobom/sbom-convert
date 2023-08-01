@@ -47,7 +47,7 @@ changelog:
       - go mod tidy
 
 release:
- disable: true
+ disable: false
  name_template: 'v{{ .Version }}'
  github:
    owner: '{{ .Env.ORG_NAME }}'
