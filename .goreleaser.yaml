@@ -128,7 +128,7 @@ publishers:
 scoops:
   -
     repository:
-      owner: '{{ .Env.ORG_NAME }}'
+      owner: bom-squad # '{{ .Env.ORG_NAME }}'
       name: scoop-bucket
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     description: A tool to convert between different Software Bill of Materials (SBOM) formats.
@@ -136,7 +136,7 @@ scoops:
 
 brews:
   - repository:
-      owner: '{{ .Env.ORG_NAME }}'
+      owner: bom-squad # '{{ .Env.ORG_NAME }}'
       name: homebrew-tap
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     goarm: "7"
