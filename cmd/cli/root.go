@@ -7,13 +7,18 @@ import (
 	mcobra "github.com/muesli/mango-cobra"
 	"github.com/muesli/roff"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 
 	"github.com/bom-squad/go-cli/cmd/cli/options"
 	"github.com/bom-squad/go-cli/pkg/log"
 )
 
-var version = "dev"
+var (
+	version = "0.0.0-dev"
+	name    = "sbom-convert"
+)
 
 func ManCommand(root *cobra.Command) *cobra.Command {
 	cmd := &cobra.Command{
@@ -52,15 +57,22 @@ func NewRootCmd() *cobra.Command {
 			if err := validateRootOptions(ro); err != nil {
 				return err
 			}
+
+			if err := options.BindConfig(viper.GetViper(), cmd); err != nil {
+				return err
+			}
 			return setupLogger(ro)
 		},
 		SilenceErrors: true,
 	}
 
+	rootCmd.SetVersionTemplate(fmt.Sprintf("%s {{.Version}}\n", name))
+
 	ro.AddFlags(rootCmd)
 
 	// Commands
-	rootCmd.AddCommand(ConvertCommand())
+	cvtCmd := ConvertCommand()
+	rootCmd.AddCommand(cvtCmd)
 
 	// Manpages
 	rootCmd.AddCommand(ManCommand(rootCmd))
@@ -72,15 +84,7 @@ func validateRootOptions(_ *options.RootOptions) error {
 }
 
 func setupLogger(ro *options.RootOptions) error {
-	level := zap.WarnLevel
-	if ro.Verbose {
-		level = zap.InfoLevel
-	}
-
-	if ro.Debug {
-		level = zap.DebugLevel
-	}
-
+	level := zapcore.Level(int(zap.WarnLevel) - ro.Verbose)
 	log, err := log.NewLogger(
 		log.WithLevel(level),
 		log.WithGlobalLogger(),

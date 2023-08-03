@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"go.uber.org/zap"
 
 	"github.com/bom-squad/go-cli/cmd/cli/options"
@@ -39,6 +40,10 @@ func ConvertCommand() *cobra.Command {
 				return err
 			}
 
+			if err := options.BindConfig(viper.GetViper(), cmd); err != nil {
+				return err
+			}
+
 			return validateConvertOptions(co, args)
 		},
 	}
@@ -49,15 +54,12 @@ func ConvertCommand() *cobra.Command {
 }
 
 func validateConvertOptions(co *options.ConvertOptions, args []string) error {
-	_, err := format.ParseFormat(co.Format, co.Encoding)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
 // runConvert is the main entrypoint for the `convert` command
 func runConvert(ctx context.Context, co *options.ConvertOptions, args []string) error {
+	log := zap.S()
 	f, err := os.Open(args[0])
 	if err != nil {
 		return err
@@ -70,7 +72,14 @@ func runConvert(ctx context.Context, co *options.ConvertOptions, args []string) 
 		return err
 	}
 
-	out, err := createOutputStream(co.OutputPath, frmt)
+	overwrited := false
+	_, err = os.Stat(co.OutputPath)
+	if err != nil {
+		log.Debug("output path already exists, overwriting")
+		overwrited = true
+	}
+
+	out, path, err := createOutputStream(co.OutputPath, frmt)
 	if err != nil {
 		return err
 	}
@@ -78,7 +87,23 @@ func runConvert(ctx context.Context, co *options.ConvertOptions, args []string) 
 	cs := convert.NewService(
 		convert.WithFormat(frmt),
 	)
-	return cs.Convert(ctx, f, out)
+
+	if err := cs.Convert(ctx, f, out); err != nil {
+		out.Close()
+
+		if !overwrited {
+			return err
+		}
+
+		log.Debugf("removing output file %s", *path)
+		if rerr := os.Remove(*path); rerr != nil {
+			log.Info("failed to remove output file", zap.String("path", *path), zap.Error(rerr))
+		}
+
+		return err
+	}
+
+	return nil
 }
 
 // parseFormat parses the format string and returns target format
@@ -101,56 +126,58 @@ func parseFormat(f, e string, r io.ReadSeekCloser) (*format.Format, error) {
 	return format, nil
 }
 
-func createOutputStream(o string, frmt *format.Format) (io.WriteCloser, error) {
+func createOutputStream(out string, frmt *format.Format) (io.WriteCloser, *string, error) {
 	log := zap.S()
 
-	if o == "" {
+	if out == "" {
 		log.Debug("no output path specified, using stdout")
-		return os.Stdout, nil
+		return os.Stdout, nil, nil
 	}
 
+	output, dir := getOutputInfo(out, frmt.Type(), frmt.Encoding())
+	log.Debugf("creating output directory: %s", dir)
+	if err := os.MkdirAll(dir, os.FileMode(outputDirPermissions)); err != nil {
+		return nil, nil, err
+	}
+
+	o, err := os.Create(filepath.Join(dir, output))
+	log.Debugf("creating output file: %s", output)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return o, &output, nil
+}
+
+func getOutputInfo(path, frmt, encoding string) (output, dir string) {
 	// NOTE: @mrsufgi: we are autofixing the output file name to match the format
 	// this is very opinionated and might not be the best UX (-o ori.file -> ori.file.cdx.json)
 	// but it's the simplest way to make sure outputs are always in the right format
-	dir := filepath.Dir(o)
-	ext := filepath.Ext(o)
-	name := strings.TrimSuffix(filepath.Base(o), ext)
+	dir = filepath.Dir(path)
+	ext := filepath.Ext(path)
+	name := strings.TrimSuffix(filepath.Base(path), ext)
 
-	if ext != fmt.Sprintf(".%s", frmt.Encoding()) {
-		log.Debug("output path extension does not match format encoding, appending")
+	if ext != fmt.Sprintf(".%s", encoding) {
+		zap.L().Debug("output path extension does not match format encoding, appending")
 		name = fmt.Sprintf("%s%s", name, ext)
 		ext = ""
 	}
-	var output string
-	if frmt.Type() == format.CDX {
+	if frmt == format.CDX {
 		output = fmt.Sprintf("%s.cdx", name)
 	}
 
-	if frmt.Type() == format.SPDX {
+	if frmt == format.SPDX {
 		output = fmt.Sprintf("%s.%s", name, format.SPDX)
 	}
 
 	if ext == "" {
-		if frmt.Encoding() == format.JSONEncoding {
-			log.Debug("output path does not contain a valid format extension, appending")
-			output = fmt.Sprintf("%s.%s", output, frmt.Encoding())
+		if encoding == format.JSONEncoding {
+			zap.L().Debug("output path does not contain a valid format extension, appending")
+			output = fmt.Sprintf("%s.%s", output, encoding)
 		}
 	} else {
 		output = fmt.Sprintf("%s%s", output, ext)
 	}
 
-	log.Debugf("creating output directory: %s", dir)
-	if err := os.MkdirAll(dir, os.FileMode(outputDirPermissions)); err != nil {
-		return nil, err
-	}
-
-	output = filepath.Join(dir, output)
-
-	out, err := os.Create(output)
-	log.Debugf("creating output file: %s", output)
-	if err != nil {
-		return nil, err
-	}
-
-	return out, nil
+	return output, dir
 }

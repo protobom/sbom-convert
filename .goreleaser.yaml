@@ -26,7 +26,7 @@ builds:
     flags:
       - -trimpath
     ldflags:
-      - -s -w -X {{ .ModulePath }}/cmd/cli.version={{.Version}}
+      - -s -w -X {{ .ModulePath }}/cmd/cli.version={{.Version}} -X {{ .ModulePath }}/cmd/cli.name={{.ProjectName}}
     main: .
 checksum:
   name_template: 'checksums.txt'
@@ -157,6 +157,7 @@ dockers:
   use: buildx
   build_flag_templates:
   - "--pull"
+  - "--build-arg=NAME={{.ProjectName}}"
   - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
   - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
   - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
@@ -176,6 +177,7 @@ dockers:
   use: buildx
   build_flag_templates:
   - "--pull"
+  - "--build-arg=NAME={{.ProjectName}}"
   - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
   - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
   - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
