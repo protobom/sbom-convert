@@ -22,12 +22,17 @@ var outputDirPermissions = 0o755
 func ConvertCommand() *cobra.Command {
 	co := &options.ConvertOptions{}
 	c := &cobra.Command{
-		Use:               "convert",
-		Aliases:           []string{""},
-		SuggestFor:        []string{},
-		Short:             "",
-		Long:              ``,
-		Example:           ``,
+		Use:        "convert",
+		Aliases:    []string{"cv"},
+		SuggestFor: []string{"convert"},
+		Short:      "Convert between CycloneDX and SPDX SBOMs",
+		Long:       `Convert between CycloneDX and SPDX, or vice versa, including different specification versions.`,
+		Example: `
+sbom-convert convert sbom.cdx.json         			output to stdout in inverse format
+sbom-convert convert sbom.spdx.json -o sbom.cdx.json            output to a file
+sbom-convert convert sbom.cdx.json -f spdx-2.3         		select to a specific format
+sbom-convert convert sbom.cdx.json -f spdx -e text   	        select specific encoding
+	 				`,
 		SilenceErrors:     true,
 		SilenceUsage:      true,
 		DisableAutoGenTag: true,
@@ -131,7 +136,7 @@ func createOutputStream(out string, frmt *format.Format) (io.WriteCloser, *strin
 
 	if out == "" {
 		log.Debug("no output path specified, using stdout")
-		return os.Stdout, nil, nil
+		return os.Stdout, &out, nil
 	}
 
 	output, dir := getOutputInfo(out, frmt.Type(), frmt.Encoding())
@@ -163,11 +168,19 @@ func getOutputInfo(path, frmt, encoding string) (output, dir string) {
 		ext = ""
 	}
 	if frmt == format.CDX {
-		output = fmt.Sprintf("%s.cdx", name)
+		if strings.HasSuffix(name, ".cdx") {
+			output = name
+		} else {
+			output = fmt.Sprintf("%s.cdx", name)
+		}
 	}
 
 	if frmt == format.SPDX {
-		output = fmt.Sprintf("%s.%s", name, format.SPDX)
+		if strings.HasSuffix(name, ".spdx") {
+			output = name
+		} else {
+			output = fmt.Sprintf("%s.spdx", name)
+		}
 	}
 
 	if ext == "" {

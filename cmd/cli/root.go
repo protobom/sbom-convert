@@ -47,8 +47,8 @@ func NewRootCmd() *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:     "sbom-convert",
 		Version: version,
-		Short:   "",
-		Long:    ``,
+		Short:   "Convert between CycloneDX into SPDX SBOM",
+		Long:    "Convert between CycloneDX into SPDX SBOM, Bridging the gap between CycloneDX and SPDX",
 		Run:     func(cmd *cobra.Command, args []string) {},
 		CompletionOptions: cobra.CompletionOptions{
 			HiddenDefaultCmd: true,
@@ -66,7 +66,7 @@ func NewRootCmd() *cobra.Command {
 		SilenceErrors: true,
 	}
 
-	rootCmd.SetVersionTemplate(fmt.Sprintf("%s {{.Version}}\n", name))
+	rootCmd.SetVersionTemplate(fmt.Sprintf("%s v{{.Version}}\n", name))
 
 	ro.AddFlags(rootCmd)
 

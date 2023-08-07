@@ -13,6 +13,9 @@ var defaultCmd = "convert"
 func setDefaultCommand(cmd *cobra.Command) {
 	if len(os.Args) > 1 {
 		pcmd := os.Args[1]
+		if pcmd == "completion" || pcmd == "--version" {
+			return
+		}
 		for _, command := range cmd.Commands() {
 			if command.Use == pcmd {
 				return

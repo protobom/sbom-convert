@@ -14,7 +14,6 @@ builds:
       - windows
       - darwin
     goarch:
-      - "386"
       - amd64
       - arm
       - arm64
@@ -97,11 +96,11 @@ nfpms:
         - changelog-file-missing-in-native-package
 
 archives:
+  # NOTE: consider mapping x86_64 to amd64
   - name_template: >-
       {{ .ProjectName }}_
       {{- title .Os | tolower }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
+      {{- if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
     format_overrides:
@@ -157,7 +156,6 @@ dockers:
   use: buildx
   build_flag_templates:
   - "--pull"
-  - "--build-arg=NAME={{.ProjectName}}"
   - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
   - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
   - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
@@ -169,15 +167,12 @@ dockers:
   - "--label=org.opencontainers.image.version={{.Version}}"
   - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
   - "--platform=linux/amd64"
-  extra_files:
-  - scripts/entrypoint.sh
 - image_templates:
   - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
   dockerfile: Dockerfile
   use: buildx
   build_flag_templates:
   - "--pull"
-  - "--build-arg=NAME={{.ProjectName}}"
   - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
   - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
   - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
@@ -190,8 +185,6 @@ dockers:
   - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
   - "--platform=linux/arm64"
   goarch: arm64
-  extra_files:
-  - scripts/entrypoint.sh
 docker_manifests:
 - name_template: 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}'
   image_templates:
