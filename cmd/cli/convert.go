@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/bom-squad/go-cli/cmd/cli/options"
-	"github.com/bom-squad/go-cli/internal/convert"
+	"github.com/bom-squad/go-cli/pkg/convert"
 	"github.com/bom-squad/go-cli/pkg/format"
 )
 

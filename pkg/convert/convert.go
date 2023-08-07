@@ -7,7 +7,7 @@ import (
 	"github.com/bom-squad/protobom/pkg/reader"
 	"github.com/bom-squad/protobom/pkg/writer"
 
-	"github.com/bom-squad/go-cli/internal/domain"
+	"github.com/bom-squad/go-cli/pkg/domain"
 	"github.com/bom-squad/go-cli/pkg/format"
 )
 
