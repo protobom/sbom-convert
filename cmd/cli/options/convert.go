@@ -13,7 +13,7 @@ type ConvertOptions struct {
 
 // AddFlags adds command line flags for the ConvertOptions struct
 func (o *ConvertOptions) AddFlags(cmd *cobra.Command) {
-	cmd.Flags().StringVarP(&o.Format, "format", "f", "", "format string")
-	cmd.Flags().StringVarP(&o.Encoding, "encoding", "e", "json", "output encoding")
+	cmd.Flags().StringVarP(&o.Format, "format", "f", "", "the output format [spdx, spdx-2.3, cyclonedx, cyclonedx-1.4]")
+	cmd.Flags().StringVarP(&o.Encoding, "encoding", "e", "json", "the output encoding [spdx: [text, json] cyclonedx: [json]")
 	cmd.Flags().StringVarP(&o.OutputPath, "output", "o", "", "path to write the converted SBOM")
 }
