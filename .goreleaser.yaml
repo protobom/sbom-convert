@@ -149,48 +149,48 @@ brews:
       fish_completion.install "completions/{{ .ProjectName }}.fish"
       man1.install "manpages/{{ .ProjectName }}.1.gz"
 
-dockers:
-- image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
-  dockerfile: Dockerfile
-  use: buildx
-  build_flag_templates:
-  - "--pull"
-  - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
-  - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
-  - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
-  - "--label=io.artifacthub.package.license=Apache-2.0"
-  - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
-  - "--label=org.opencontainers.image.created={{.Date}}"
-  - "--label=org.opencontainers.image.name={{.ProjectName}}"
-  - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-  - "--label=org.opencontainers.image.version={{.Version}}"
-  - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
-  - "--platform=linux/amd64"
-- image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
-  dockerfile: Dockerfile
-  use: buildx
-  build_flag_templates:
-  - "--pull"
-  - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
-  - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
-  - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
-  - "--label=io.artifacthub.package.license=Apache-2.0"
-  - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
-  - "--label=org.opencontainers.image.created={{.Date}}"
-  - "--label=org.opencontainers.image.name={{.ProjectName}}"
-  - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-  - "--label=org.opencontainers.image.version={{.Version}}"
-  - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
-  - "--platform=linux/arm64"
-  goarch: arm64
-docker_manifests:
-- name_template: 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}'
-  image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
-- name_template: 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:latest'
-  image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
+# dockers:
+# - image_templates:
+#   - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
+#   dockerfile: Dockerfile
+#   use: buildx
+#   build_flag_templates:
+#   - "--pull"
+#   - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
+#   - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
+#   - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
+#   - "--label=io.artifacthub.package.license=Apache-2.0"
+#   - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
+#   - "--label=org.opencontainers.image.created={{.Date}}"
+#   - "--label=org.opencontainers.image.name={{.ProjectName}}"
+#   - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+#   - "--label=org.opencontainers.image.version={{.Version}}"
+#   - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
+#   - "--platform=linux/amd64"
+# - image_templates:
+#   - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
+#   dockerfile: Dockerfile
+#   use: buildx
+#   build_flag_templates:
+#   - "--pull"
+#   - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
+#   - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
+#   - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
+#   - "--label=io.artifacthub.package.license=Apache-2.0"
+#   - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
+#   - "--label=org.opencontainers.image.created={{.Date}}"
+#   - "--label=org.opencontainers.image.name={{.ProjectName}}"
+#   - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+#   - "--label=org.opencontainers.image.version={{.Version}}"
+#   - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
+#   - "--platform=linux/arm64"
+#   goarch: arm64
+# docker_manifests:
+# - name_template: 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}'
+#   image_templates:
+#   - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
+#   - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
+# - name_template: 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:latest'
+#   image_templates:
+#   - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
+#   - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
