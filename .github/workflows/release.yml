@@ -1,0 +1,83 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-as:
+        description: "semver type of the release"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: none
+        required: true
+      prerelease:
+        description: "release as prerelease"
+        type: boolean
+        required: true
+        default: true
+      prerelease-suffix:
+        description: suffix for your prerelease versions
+        type: string
+        required: false
+        default: beta
+
+permissions: write-all
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_CLI_EXPERIMENTAL: "enabled"
+    name: release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          cache: true
+          go-version: ">=1.20.6"
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ./dist/*.deb
+            ./dist/*.rpm
+            ./dist/*.apk
+          key: ${{ github.ref }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch tags
+        run: git fetch --force --tags
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.61.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: ${{ inputs.release-as }}
+          PRERELEASE: ${{ inputs.prerelease }}
+          PRERELEASE_SUFFIX: ${{ inputs.prerelease-suffix }}
+          VERBOSE: true
+          DRY_RUN: false
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v4
+        with:
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
+          ORG_NAME: ${{ github.repository_owner }}
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.repository_owner }}
+          path: dist/*
