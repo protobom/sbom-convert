@@ -20,8 +20,8 @@ The `convert` command takes in a single - as of now - json file in either SPDX o
 - `-o`, `--output`:  (string) Path to write the converted SBOM. Default: stdout. 
 
 Global Flags:
-`-c`, `--config`: (string) Path to config file
-`-v`, `--verbose`: log verbosity level (-v=info, -vv=debug, -vvv=trace)
+- `-c`, `--config`: (string) Path to config file
+- `-v`, `--verbose`: log verbosity level (-v=info, -vv=debug, -vvv=trace)
 
 
 ### Examples
