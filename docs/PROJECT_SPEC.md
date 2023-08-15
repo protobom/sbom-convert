@@ -67,8 +67,7 @@ We should provide helpful, clear error messages and guidance if any exceptions a
 
 | Question | Answer | Date Answered |
 | --- | --- | --- |
-| What language should this be written in?
-- [Go, OPA/Rego] | Start with Golang |  |
+| What language should this be written in? [Go, OPA/Rego] | Start with Golang |  |
 | Should we support .spdx? | No |  |
 | What’s the expected behavior around versioning for CDX and SPDX? | CDX 1.4+
 SPDX 2.2, 2.3+ |  |
