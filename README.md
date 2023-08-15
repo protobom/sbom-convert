@@ -14,14 +14,14 @@ The `convert` command takes in a single - as of now - json file in either SPDX o
 - The file must be a valid CycloneDX / SPDX document
 
 ### Flags
-- `-e`, `--encoding`: (string) The output encoding [spdx: [text, json] cyclonedx: [json] (default "json")
-- `-f`, `--format`: (string) The output format [spdx, spdx-2.3, cyclonedx, cyclonedx-1.4]
+- `-e`, `--encoding`: (string, optional) The output encoding [spdx: [text, json] cyclonedx: [json] (default "json")
+- `-f`, `--format`: (string, Required) The output format [spdx, spdx-2.3, cyclonedx, cyclonedx-1.4]
 - `-h`, `--help`:` help for convert
-- `-o`, `--output`:  (string) Path to write the converted SBOM. Default: stdout. 
+- `-o`, `--output`:  (string, optional) Path to write the converted SBOM. Default: stdout. A user can provide just a string for the filename (e.g "mybom"), which will create a file `mybom.json`. Users can also specify an SPDX tag-value format, e.g. `myBOM.spdx`. 
 
 Global Flags:
-`-c`, `--config`: (string) Path to config file
-`-v`, `--verbose`: log verbosity level (-v=info, -vv=debug, -vvv=trace)
+- `-c`, `--config`: (string, optional) Path to config file
+- `-v`, `--verbose`: log verbosity level (-v=info, -vv=debug, -vvv=trace)
 
 
 ### Examples
