@@ -7,7 +7,7 @@ This repository contains a Go unit test file aimed at evaluating the accuracy an
 This unit test file operates through the following steps to validate SBOM conversion:
 
 1. **Unit Test**: 
-    - Automatically Download our shared SBOM dataset[here](https://drive.google.com/file/d/1LgGlq3g_H02mhzkc94cUd0zzxy0JhFim/view?usp=sharing), comprising 10,494 SBOM files in both SPDX and CycloneDX formats.
+    - Automatically Download our shared [SBOM dataset](https://drive.google.com/file/d/1LgGlq3g_H02mhzkc94cUd0zzxy0JhFim/view?usp=sharing), comprising 10,494 SBOM files in both SPDX and CycloneDX formats.
    - Utilize the sbom-convert tool for converting SBOMs from one format to another.
    - Verify that the sbom-convert tool does not encounter any errors.
    - Compare the counts of PURLs in the original and converted SBOMs.
