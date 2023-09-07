@@ -45,5 +45,8 @@ upstream-protobom: ## Upstream protobom library
 
 .PHONY: unittest
 unittest: ## Run unittests
-	go test -count=1 -v ./...
-	
+	go test -count=1 -v ./... -run='^(Test[^F])'
+
+.PHONY: fuzztest
+fuzztest: ## Run fuzzing tests
+	go test --fuzz=Fuzz pkg/convert/convert_fuzzing_test.go
