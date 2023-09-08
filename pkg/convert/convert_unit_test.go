@@ -14,7 +14,7 @@ import (
 	"testing"
 )
 
-func extractLicenses(input string) []string {
+func ExtractLicenses(input string) []string {
 	input = strings.NewReplacer("(", "", ")", "").Replace(input)
 	licenses := regexp.MustCompile(`\s*(OR|AND)\s*`).Split(input, -1)
 	var result []string
@@ -26,7 +26,7 @@ func extractLicenses(input string) []string {
 	return result
 }
 
-func filterLicenses(licenses []string) []string {
+func FilterLicenses(licenses []string) []string {
 	var result []string
 	for _, license := range licenses {
 		switch license {
@@ -39,7 +39,7 @@ func filterLicenses(licenses []string) []string {
 	return result
 }
 
-func get_purls_count(json_str string) int {
+func GetPurlsCount(json_str string) int {
 	var data map[string]interface{}
 	err := json.Unmarshal([]byte(json_str), &data)
 	if err != nil {
@@ -84,7 +84,7 @@ func get_purls_count(json_str string) int {
 	return len(purls)
 }
 
-func get_licenses_count(json_str string) int {
+func GetLicensesCount(json_str string) int {
 	var data map[string]interface{}
 	err := json.Unmarshal([]byte(json_str), &data)
 	if err != nil {
@@ -99,15 +99,15 @@ func get_licenses_count(json_str string) int {
 			packageMap, _ := pkg.(map[string]interface{})
 
 			if licenseConcluded, ok := packageMap["licenseConcluded"].(string); ok {
-				concludedLicenses := extractLicenses(licenseConcluded)
-				for _, lic := range filterLicenses(concludedLicenses) {
+				concludedLicenses := ExtractLicenses(licenseConcluded)
+				for _, lic := range FilterLicenses(concludedLicenses) {
 					licenses[lic] = struct{}{}
 				}
 			}
 
 			if licenseDeclared, ok := packageMap["licenseDeclared"].(string); ok {
-				declaredLicenses := extractLicenses(licenseDeclared)
-				for _, lic := range filterLicenses(declaredLicenses) {
+				declaredLicenses := ExtractLicenses(licenseDeclared)
+				for _, lic := range FilterLicenses(declaredLicenses) {
 					licenses[lic] = struct{}{}
 				}
 			}
@@ -132,7 +132,7 @@ func get_licenses_count(json_str string) int {
 	return len(licenses)
 }
 
-func downloadSBOMs() {
+func DownloadSBOMs() {
 	fileURL := "https://drive.usercontent.google.com/download?id=1LgGlq3g_H02mhzkc94cUd0zzxy0JhFim&export=download&authuser=0&confirm=t&uuid=483eac07-f1af-4356-abeb-4ba254e32b86&at=APZUnTWjSNLUgCQ8wwFZjsLS7Y36:1694113089657"
 	tarPath := "./SBOM.tar.xz"
 
@@ -171,14 +171,13 @@ func downloadSBOMs() {
 }
 
 func TestCount(t *testing.T) {
-	fmt.Println("Counting SBOMs...")
 	sbomFolder := "./SBOM/"
 	_, err := os.Stat(sbomFolder)
 
 	if os.IsNotExist(err) {
 		// sbomFolder does not exist, download it.
 		fmt.Println("Downloading SBOMs from Google Drive...")
-		downloadSBOMs()
+		DownloadSBOMs()
 	} else if err != nil {
 		fmt.Printf("Error checking SBOM folder: %v\n", err)
 		return
@@ -222,15 +221,15 @@ func TestCount(t *testing.T) {
 			continue
 		}
 
-		ori_purls_count := get_purls_count(ori_json)
-		converted_purls_count := get_purls_count(converted_json)
+		ori_purls_count := GetPurlsCount(ori_json)
+		converted_purls_count := GetPurlsCount(converted_json)
 
 		if ori_purls_count > 0 && ori_purls_count > converted_purls_count {
 			t.Errorf("PURL Check failed. 'Original PURL Count:', %d, 'Converted PURL Count:' %d", ori_purls_count, converted_purls_count)
 		}
 
-		ori_licenses_count := get_licenses_count(ori_json)
-		converted_licenses_count := get_licenses_count(converted_json)
+		ori_licenses_count := GetLicensesCount(ori_json)
+		converted_licenses_count := GetLicensesCount(converted_json)
 
 		if ori_licenses_count > 0 && ori_licenses_count != converted_licenses_count {
 			t.Errorf("License Check failed. 'Original License Count:', %d, 'Converted License Count:' %d", ori_licenses_count, converted_licenses_count)

@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -18,7 +19,7 @@ func (rws *ReadWriteSeeker) Close() error {
 	return rws.File.Close()
 }
 
-func writeStringToTempFile(content string) (io.ReadSeekCloser, error) {
+func WriteStringToTempFile(content string) (io.ReadSeekCloser, error) {
 	// Create a temporary file
 	tempFile, err := os.CreateTemp("", "tempfile")
 	if err != nil {
@@ -49,20 +50,19 @@ func writeStringToTempFile(content string) (io.ReadSeekCloser, error) {
 func ParseStreamWrapper(content string) {
 	t := io.NopCloser(strings.NewReader(content))
 	r := reader.New()
-	t, _ = writeStringToTempFile(content)
+	t, _ = WriteStringToTempFile(content)
 	t2 := t.(io.ReadSeekCloser)
 	r.ParseStream(t2)
 }
 
 func FuzzParseStream(f *testing.F) {
-	// filePaths := []string{"/home/wei/code/sboms/python/abhiTronix/vidgear/syft_spdx.json", "/home/wei/code/sboms/python/awslabs/aws-data-wrangler/syft_cyclonedx.json"}
-	filePaths := []string{"/home/wei/code/sboms/python/abhiTronix/vidgear/syft_spdx.json"}
-	for _, filePath := range filePaths {
-		content, err := os.ReadFile(filePath)
+	filePaths := []string{"SBOM/abhiTronix_vidgear_syft_spdx.json"}
+	for _, path := range filePaths {
+		absPath, _ := filepath.Abs(path)
+		content, err := os.ReadFile(absPath)
 		if err != nil {
 			log.Fatal(err)
 		}
-		// fmt.Println(string(content))
 		f.Add(string(content))
 	}
 
