@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"flag"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -10,6 +12,14 @@ import (
 
 	"github.com/bom-squad/protobom/pkg/reader"
 )
+
+var (
+	seed_input string
+)
+
+func init() {
+	flag.StringVar(&seed_input, "seed_input", "fuzz_seed_spdx.json", "Seed input file path")
+}
 
 type ReadWriteSeeker struct {
 	*os.File
@@ -56,15 +66,13 @@ func ParseStreamWrapper(content string) {
 }
 
 func FuzzParseStream(f *testing.F) {
-	filePaths := []string{"SBOM/abhiTronix_vidgear_syft_spdx.json"}
-	for _, path := range filePaths {
-		absPath, _ := filepath.Abs(path)
-		content, err := os.ReadFile(absPath)
-		if err != nil {
-			log.Fatal(err)
-		}
-		f.Add(string(content))
+	absPath, _ := filepath.Abs(seed_input)
+	fmt.Println(absPath)
+	content, err := os.ReadFile(absPath)
+	if err != nil {
+		log.Fatal(err)
 	}
+	f.Add(string(content))
 
 	f.Fuzz(func(t *testing.T, orig string) {
 		ParseStreamWrapper(orig)

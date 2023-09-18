@@ -2,6 +2,7 @@ package convert
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -13,6 +14,20 @@ import (
 	"strings"
 	"testing"
 )
+
+var (
+	max_test_count     int
+	test_spdx_json     bool
+	test_spdx_keyvalue bool
+	test_cdx_json      bool
+)
+
+func init() {
+	flag.IntVar(&max_test_count, "max_test_count", 100, "Maximum number of test files")
+	flag.BoolVar(&test_spdx_json, "test_spdx_json", true, "Test SPDX json files")
+	flag.BoolVar(&test_spdx_keyvalue, "test_spdx_keyvalue", false, "Test SPDX key-value files")
+	flag.BoolVar(&test_cdx_json, "test_cdx_json", true, "Test CycloneDX json files")
+}
 
 func ExtractLicenses(input string) []string {
 	input = strings.NewReplacer("(", "", ")", "").Replace(input)
@@ -197,14 +212,32 @@ func TestCount(t *testing.T) {
 		fmt.Println("Error reading directory:", err)
 		return
 	}
-	for i, fileInfo := range fileInfos {
-		if i >= 100 { // Limit to 100 files
-			break
-		}
+	tested_count := 0
+	for _, fileInfo := range fileInfos {
 		filename := fileInfo.Name()
 		filePath := filepath.Join(sbomFolder, filename)
 
-		fmt.Println("=> Testing", filePath)
+		if test_spdx_json == false && strings.Contains(filename, "_spdx.json") {
+			fmt.Printf("Skipping %s...\n", filename)
+			continue
+		}
+
+		if test_spdx_keyvalue == false && strings.Contains(filename, "_spdx.txt") {
+			fmt.Printf("Skipping %s...\n", filename)
+			continue
+		}
+
+		if test_cdx_json == false && strings.Contains(filename, "_cyclonedx.json") {
+			fmt.Printf("Skipping %s...\n", filename)
+			continue
+		}
+
+		tested_count++
+		if tested_count > max_test_count {
+			fmt.Printf("Reached max_test_count: %d\n", max_test_count)
+			break
+		}
+		fmt.Printf("=> (%d/%d) Testing %s\n", tested_count, max_test_count, filePath)
 
 		data, err := os.ReadFile(filePath)
 		ori_json := string(data)
@@ -235,4 +268,8 @@ func TestCount(t *testing.T) {
 			t.Errorf("License Check failed. 'Original License Count:', %d, 'Converted License Count:' %d", ori_licenses_count, converted_licenses_count)
 		}
 	}
+
+	// delete downloaded SBOM files and the SBOM.tar.xz file
+	os.RemoveAll(sbomFolder)
+	os.Remove("SBOM.tar.xz")
 }

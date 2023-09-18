@@ -1,0 +1,38 @@
+name: Unit Tests and Fuzzing Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.21.0
+
+    - name: Build bootstrap
+      run: make bootstrap
+
+    - name: Build upstream-protobom
+      run: make upstream-protobom
+
+    - name: Build binary
+      run: make binary
+
+    - name: Run unit tests
+      uses: make unittest
+
+    - name: Run fuzzing tests
+      uses: make fuzztest
