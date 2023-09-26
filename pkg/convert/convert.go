@@ -39,7 +39,7 @@ func (s *Service) Convert(_ context.Context, in io.ReadSeekCloser, out io.WriteC
 		return err
 	}
 
-	doc = s.HandleMultiTargets(doc)
+	doc = s.HandleMultiRoots(doc)
 
 	w := writer.New()
 	w.Options.Format = s.Format.Format
@@ -47,7 +47,7 @@ func (s *Service) Convert(_ context.Context, in io.ReadSeekCloser, out io.WriteC
 	return w.WriteStream(doc, out)
 }
 
-func (s *Service) HandleMultiTargets(doc *sbom.Document) *sbom.Document {
+func (s *Service) HandleMultiRoots(doc *sbom.Document) *sbom.Document {
 	roots := doc.GetRootNodes()
 
 	if len(roots) > 1 {
