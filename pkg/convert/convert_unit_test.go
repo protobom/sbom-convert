@@ -270,7 +270,7 @@ func TestCount(t *testing.T) {
 		}
 		fmt.Printf("convert successfully\n")
 
-		converted_json, err := readJSONFile("/home/wei/code/deepbits/sbom-convert/pkg/convert/", prefix)
+		converted_json, err := readJSONFile("./", prefix)
 		// fmt.Println(converted_json)
 
 		ori_purls_count := GetPurlsCount(ori_json)
@@ -293,7 +293,7 @@ func TestCount(t *testing.T) {
 			t.Errorf("License Check failed. 'Original License Count:', %d, 'Converted License Count:' %d", ori_licenses_count, converted_licenses_count)
 		}
 
-		files, err := filepath.Glob("/home/wei/code/deepbits/sbom-convert/pkg/convert/" + prefix + "*.json")
+		files, err := filepath.Glob(prefix + "*.json")
 		if err != nil {
 			panic(err)
 		}
