@@ -120,12 +120,12 @@ func GetLicensesCount(json_str string) int {
 				}
 			}
 
-			if licenseDeclared, ok := packageMap["licenseDeclared"].(string); ok {
-				declaredLicenses := ExtractLicenses(licenseDeclared)
-				for _, lic := range FilterLicenses(declaredLicenses) {
-					licenses[lic] = struct{}{}
-				}
-			}
+			// if licenseDeclared, ok := packageMap["licenseDeclared"].(string); ok {
+			// 	declaredLicenses := ExtractLicenses(licenseDeclared)
+			// 	for _, lic := range FilterLicenses(declaredLicenses) {
+			// 		licenses[lic] = struct{}{}
+			// 	}
+			// }
 		}
 	} else {
 		components, _ := data["components"].([]interface{})
@@ -185,6 +185,22 @@ func DownloadSBOMs() {
 	fmt.Println("SBOMs extracted successfully.")
 }
 
+func readJSONFile(path string, prefix string) (string, error) {
+	var result string
+	files, err := filepath.Glob(path + prefix + ".*.json")
+	if err != nil {
+		return "", err
+	}
+	for _, file := range files {
+		data, err := os.ReadFile(file)
+		if err != nil {
+			return "", err
+		}
+		result = string(data)
+	}
+	return result, nil
+}
+
 func TestCount(t *testing.T) {
 	sbomFolder := "./SBOM/"
 	_, err := os.Stat(sbomFolder)
@@ -215,22 +231,20 @@ func TestCount(t *testing.T) {
 	tested_count := 0
 	for _, fileInfo := range fileInfos {
 		filename := fileInfo.Name()
-		filePath := filepath.Join(sbomFolder, filename)
 
 		if test_spdx_json == false && strings.Contains(filename, "_spdx.json") {
-			fmt.Printf("Skipping %s...\n", filename)
 			continue
 		}
 
 		if test_spdx_keyvalue == false && strings.Contains(filename, "_spdx.txt") {
-			fmt.Printf("Skipping %s...\n", filename)
 			continue
 		}
 
 		if test_cdx_json == false && strings.Contains(filename, "_cyclonedx.json") {
-			fmt.Printf("Skipping %s...\n", filename)
 			continue
 		}
+
+		filePath := filepath.Join(sbomFolder, filename)
 
 		tested_count++
 		if tested_count > max_test_count {
@@ -246,26 +260,49 @@ func TestCount(t *testing.T) {
 			continue
 		}
 
-		cmd := exec.Command(SBOM_CONVERT_ABSPATH, filePath)
+		prefix := filename[:len(filename)-len(filepath.Ext(filename))]
+
+		cmd := exec.Command(SBOM_CONVERT_ABSPATH, filePath, "-o", prefix)
 		output, err := cmd.CombinedOutput()
-		converted_json := string(output)
 		if err != nil {
 			t.Errorf("Convert Check failed: %s\n %s", err, string(output))
 			continue
 		}
+		fmt.Printf("convert successfully\n")
+
+		converted_json, err := readJSONFile("/home/wei/code/deepbits/sbom-convert/pkg/convert/", prefix)
+		// fmt.Println(converted_json)
 
 		ori_purls_count := GetPurlsCount(ori_json)
+		fmt.Printf("ori_purls_count: %d\n", ori_purls_count)
+
 		converted_purls_count := GetPurlsCount(converted_json)
+		fmt.Printf("converted_purls_count: %d\n", converted_purls_count)
+		// continue
 
 		if ori_purls_count > 0 && ori_purls_count > converted_purls_count {
 			t.Errorf("PURL Check failed. 'Original PURL Count:', %d, 'Converted PURL Count:' %d", ori_purls_count, converted_purls_count)
 		}
 
 		ori_licenses_count := GetLicensesCount(ori_json)
+		fmt.Printf("ori_licenses_count: %d\n", ori_licenses_count)
 		converted_licenses_count := GetLicensesCount(converted_json)
+		fmt.Printf("converted_licenses_count: %d\n", converted_licenses_count)
 
 		if ori_licenses_count > 0 && ori_licenses_count != converted_licenses_count {
 			t.Errorf("License Check failed. 'Original License Count:', %d, 'Converted License Count:' %d", ori_licenses_count, converted_licenses_count)
+		}
+
+		files, err := filepath.Glob("/home/wei/code/deepbits/sbom-convert/pkg/convert/" + prefix + "*.json")
+		if err != nil {
+			panic(err)
+		}
+		for _, file := range files {
+			err := os.Remove(file)
+			if err != nil {
+				panic(err)
+			}
+			fmt.Printf("Removed file: %s\n", file)
 		}
 	}
 
