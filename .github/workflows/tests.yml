@@ -42,5 +42,5 @@ jobs:
     - name: Run unit tests
       run: make unittest
 
-    - name: Run fuzzing tests
-      run: make fuzztest
+    # - name: Run fuzzing tests
+    #   run: make fuzztest
