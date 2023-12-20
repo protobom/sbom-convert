@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-PYTHON_UTILS=("yamllint" "pre-commit")
+PYTHON_UTILS=("yamllint" "pre-commit" "semgrep")
 GITHUB_UTILS=("")
-GOLANG_UTILS=("github.com/google/yamlfmt/cmd/yamlfmt@latest" "github.com/goreleaser/goreleaser@latest")
+GOLANG_UTILS=("github.com/google/yamlfmt/cmd/yamlfmt@latest" "github.com/goreleaser/goreleaser@latest" "go.uber.org/mock/mockgen@latest" "github.com/mfridman/tparse@latest" "github.com/vburenin/ifacemaker@latest" "github.com/maxbrunsfeld/counterfeiter/v6@latest" "github.com/go-task/task/v3/cmd/task@latest")
 APT_UTILS=("shellcheck" "vim")
 NODE_UTILS=("@commitlint/cli" "@commitlint/config-conventional")
 set -e
@@ -34,7 +34,8 @@ echo ====================================================
 echo "Installing tools from Github..."
 for util in "${GITHUB_UTILS[@]}"; do
     if ! type "${util}" >/dev/null 2>&1; then
-        curl -s "https://raw.githubusercontent.com/${util}" | bash
+        echo "im installing ${util}"
+        curl -s "https://raw.githubusercontent.com/${util}" | sudo sh -s -- -b /usr/local/bin
         echo ""
     else
         echo "${util} already installed. Skipping."

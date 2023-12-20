@@ -13,13 +13,16 @@ var (
 	DefaultEncoding         = formats.JSON
 	DefaultSPDXJSONVersion  = formats.SPDX23JSON
 	DefaultSPDXTVVersion    = formats.SPDX23TV
-	DefaultCycloneDXVersion = formats.CDX14JSON
+	DefaultCycloneDXVersion = formats.CDX15JSON
 	JSONFormatMap           = map[string]formats.Format{
 		"spdx":     formats.SPDXFORMAT,
 		"spdx-2.2": formats.SPDX22JSON,
 		"spdx-2.3": formats.SPDX23JSON,
 
 		"cyclonedx":     formats.CDXFORMAT,
+		"cyclonedx-1.0": formats.CDX10JSON,
+		"cyclonedx-1.1": formats.CDX11JSON,
+		"cyclonedx-1.2": formats.CDX12JSON,
 		"cyclonedx-1.3": formats.CDX13JSON,
 		"cyclonedx-1.4": formats.CDX14JSON,
 		"cyclonedx-1.5": formats.CDX15JSON,
@@ -31,6 +34,8 @@ var (
 		"spdx-2.3": formats.SPDX23TV,
 	}
 
+	XMLFormatMap = map[string]formats.Format{}
+
 	JSONEncoding = formats.JSON
 	TEXTEncoding = formats.TEXT
 	SPDX         = formats.SPDXFORMAT
@@ -38,6 +43,7 @@ var (
 
 	EncodingMap = map[string]string{
 		"json": formats.JSON,
+		"xml":  formats.XML,
 		"text": formats.TEXT,
 	}
 )
@@ -60,6 +66,8 @@ func ParseFormat(fs string, encoding string) (*Format, error) {
 		fm = JSONFormatMap
 	case formats.TEXT:
 		fm = TVFormatMap
+	case formats.XML:
+		fm = XMLFormatMap
 	default:
 		return nil,
 			fmt.Errorf("unknown encoding: %s", encoding)

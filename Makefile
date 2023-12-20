@@ -46,4 +46,3 @@ upstream-protobom: ## Upstream protobom library
 .PHONY: unittest
 unittest: ## Run unittests
 	go test -count=1 -v ./...
-	

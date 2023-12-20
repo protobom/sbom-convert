@@ -15,12 +15,12 @@ linters-settings:
     sections:
       - standard
       - default
-      - prefix(github.com/bom-squad/go-cli)
+      - prefix(github.com/bom-squad/sbom-convert)
 
     section-separators:
       - newLine
   goimports:
-    local-prefixes: github.com/bom-squad/go-cli
+    local-prefixes: github.com/bom-squad/sbom-convert
   goconst:
     min-len: 2
     min-occurrences: 2
@@ -34,10 +34,10 @@ linters-settings:
       - condition
       - return
     ignored-numbers:
-      - '0'
-      - '1'
-      - '2'
-      - '3'
+      - "0"
+      - "1"
+      - "2"
+      - "3"
     ignored-functions:
       - strings.SplitN
   lll:

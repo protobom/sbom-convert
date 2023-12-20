@@ -1,8 +1,8 @@
-Last updated: 8/15/2023 
+Last updated: 8/15/2023
 
 # 🎯 Objective
 
-Collaboratively develop a command line interface (cli) to easily convert between (the most common) SBOM formats, CycloneDX and SPDX. 
+Collaboratively develop a command line interface (cli) to easily convert between (the most common) SBOM formats, CycloneDX and SPDX.
 
 
 # 🗒️ Primary User Workflows
@@ -10,7 +10,7 @@ Collaboratively develop a command line interface (cli) to easily convert between
 1. Users can convert SBOMs from SPDX to CycloneDX.*
 2. Users can convert SBOMs from CycloneDX to SPDX.*
 
-*this describes the desired user flow. More nuance will have to be considered when it comes to converting between specific SBOM formats. 
+*this describes the desired user flow. More nuance will have to be considered when it comes to converting between specific SBOM formats.
 
 
 # 🗒️ Requirements & Scope
@@ -31,7 +31,7 @@ Inputs
 - `-e`, `--encoding`: (string) The output encoding [spdx: [text, json] cyclonedx: [json] (default "json")]
 - `-f`, `--format`: (string) The output format [spdx, spdx-2.3, cyclonedx, cyclonedx-1.4]
 - `-h`, `--help`:` help for convert
-- `-o`, `--output`:  (string) Path to write the converted SBOM. Default: stdout. If just a string is provided, the cli will append ".json" by default. Otherwise, users can specify full filenames+extensions, like myBom.spdx. 
+- `-o`, `--output`:  (string) Path to write the converted SBOM. Default: stdout. If just a string is provided, the cli will append ".json" by default. Otherwise, users can specify full filenames+extensions, like myBom.spdx.
 
 Global Flags:
 - `-c`, `--config`: (string) Path to config file
@@ -42,14 +42,14 @@ Global Flags:
 
 ## Outputs
 
-- An SBOM of the desired format. .json as default, but other formats can be specified. 
+- An SBOM of the desired format. .json as default, but other formats can be specified.
 - Written to stdout unless `-o` is specified
 
 
 ### User Interaction
 
 ```jsx
-sbom-convert input-sbom.json 
+sbom-convert input-sbom.json
 
 sbom-convert -o output-sbom.json -f spdx-3.0
 ```

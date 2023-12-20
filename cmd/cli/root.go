@@ -11,8 +11,8 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/bom-squad/go-cli/cmd/cli/options"
-	"github.com/bom-squad/go-cli/pkg/log"
+	"github.com/bom-squad/sbom-convert/cmd/cli/options"
+	"github.com/bom-squad/sbom-convert/pkg/log"
 )
 
 var (
