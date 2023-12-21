@@ -12,9 +12,9 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 
-	"github.com/bom-squad/go-cli/cmd/cli/options"
-	"github.com/bom-squad/go-cli/pkg/convert"
-	"github.com/bom-squad/go-cli/pkg/format"
+	"github.com/bom-squad/sbom-convert/cmd/cli/options"
+	"github.com/bom-squad/sbom-convert/pkg/convert"
+	"github.com/bom-squad/sbom-convert/pkg/format"
 )
 
 var outputDirPermissions = 0o755
@@ -58,7 +58,7 @@ sbom-convert convert sbom.cdx.json -f spdx -e text   	        select specific en
 	return c
 }
 
-func validateConvertOptions(co *options.ConvertOptions, args []string) error {
+func validateConvertOptions(_ *options.ConvertOptions, _ []string) error {
 	return nil
 }
 

@@ -7,8 +7,8 @@ import (
 	"github.com/bom-squad/protobom/pkg/reader"
 	"github.com/bom-squad/protobom/pkg/writer"
 
-	"github.com/bom-squad/go-cli/pkg/domain"
-	"github.com/bom-squad/go-cli/pkg/format"
+	"github.com/bom-squad/sbom-convert/pkg/domain"
+	"github.com/bom-squad/sbom-convert/pkg/format"
 )
 
 var _ domain.ConvertService = (*Service)(nil)
@@ -36,8 +36,9 @@ func (s *Service) Convert(_ context.Context, in io.ReadSeekCloser, out io.WriteC
 		return err
 	}
 
-	w := writer.New()
-	w.Options.Format = s.Format.Format
+	w := writer.New(
+		writer.WithFormat(s.Format.Format),
+	)
 
 	return w.WriteStream(doc, out)
 }

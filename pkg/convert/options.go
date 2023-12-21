@@ -1,7 +1,7 @@
 package convert
 
 import (
-	"github.com/bom-squad/go-cli/pkg/format"
+	"github.com/bom-squad/sbom-convert/pkg/format"
 )
 
 func WithFormat(f *format.Format) Option {
