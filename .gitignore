@@ -352,5 +352,7 @@ manpages/
 .task
 !log
 
+coverage.json
+coverage.txt
 sbom-convert
 **/snapshot
