@@ -69,10 +69,6 @@ jobs:
           repo-token: ${{ secrets.GH_TOKEN }}
       - name: setup-tparse
         run: go install github.com/mfridman/tparse@latest
-      - name: setup-trivy
-        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
-      - name: setup-syft
-        run: curl -fsSL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sudo sh -s -- -b /usr/local/bin
       - name: setup
         run: |
           task setup
