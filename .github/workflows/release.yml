@@ -77,7 +77,7 @@ jobs:
           FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
           ORG_NAME: ${{ github.repository_owner }}
       - name: Upload assets
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ github.repository_owner }}
           path: dist/*
