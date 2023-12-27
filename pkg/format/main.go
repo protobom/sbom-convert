@@ -52,8 +52,8 @@ type Format struct {
 	formats.Format
 }
 
-// ParseFormat parses the format string into a formats.Format
-func ParseFormat(fs string, encoding string) (*Format, error) {
+// Parse parses the format string into a formats.Format
+func Parse(fs string, encoding string) (*Format, error) {
 	if fs == "" {
 		return nil, errors.New("no format specified")
 	}
@@ -94,7 +94,7 @@ func ParseFormat(fs string, encoding string) (*Format, error) {
 	return &Format{f}, nil
 }
 
-func DetectFormat(f io.ReadSeeker) (*Format, error) {
+func Detect(f io.ReadSeeker) (*Format, error) {
 	s := formats.Sniffer{}
 	format, err := s.SniffReader(f)
 	if err != nil {

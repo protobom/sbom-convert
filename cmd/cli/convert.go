@@ -115,7 +115,7 @@ func runConvert(ctx context.Context, co *options.ConvertOptions, args []string) 
 // if format string is empty, it will try to detect the format automatically and return the inverse
 func parseFormat(f, e string, r io.ReadSeekCloser) (*format.Format, error) {
 	if f == "" {
-		df, err := format.DetectFormat(r)
+		df, err := format.Detect(r)
 		if err != nil {
 			return nil, err
 		}
@@ -123,7 +123,7 @@ func parseFormat(f, e string, r io.ReadSeekCloser) (*format.Format, error) {
 		return df.Inverse()
 	}
 
-	format, err := format.ParseFormat(f, e)
+	format, err := format.Parse(f, e)
 	if err != nil {
 		return nil, err
 	}

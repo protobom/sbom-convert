@@ -1,14 +1,16 @@
 module github.com/bom-squad/sbom-convert
 
-go 1.21
+go 1.21.5
 
 require (
 	github.com/bom-squad/protobom v0.2.1-0.20231219021915-5cdfd2b45eda
+	github.com/google/go-cmp v0.6.0
 	github.com/muesli/mango-cobra v1.2.0
 	github.com/muesli/roff v0.1.0
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.18.2
+	go.uber.org/mock v0.4.0
 	go.uber.org/zap v1.26.0
 )
 
@@ -17,7 +19,6 @@ require (
 	github.com/anchore/go-struct-converter v0.0.0-20230627203149-c72ef8859ca9 // indirect
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
