@@ -15,6 +15,8 @@ var _ domain.ConvertService = (*Service)(nil)
 
 type Service struct {
 	Format *format.Format
+	r      domain.Reader
+	w      domain.Writer
 }
 
 func NewService(opts ...Option) *Service {
@@ -24,21 +26,26 @@ func NewService(opts ...Option) *Service {
 		opt(s)
 	}
 
+	if s.r == nil {
+		s.r = reader.New()
+	}
+
+	if s.w == nil {
+		s.w = writer.New(
+			writer.WithFormat(s.Format.Format),
+		)
+	}
+
 	return s
 }
 
 type Option func(s *Service)
 
 func (s *Service) Convert(_ context.Context, in io.ReadSeekCloser, out io.WriteCloser) error {
-	r := reader.New()
-	doc, err := r.ParseStream(in)
+	doc, err := s.r.ParseStream(in)
 	if err != nil {
 		return err
 	}
 
-	w := writer.New(
-		writer.WithFormat(s.Format.Format),
-	)
-
-	return w.WriteStream(doc, out)
+	return s.w.WriteStream(doc, out)
 }
