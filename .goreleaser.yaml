@@ -4,7 +4,6 @@ before:
     - go mod tidy
     - ./scripts/completions.sh {{ .ProjectName }}
     - ./scripts/manpages.sh {{ .ProjectName }}
-    - go generate ./...
 
 builds:
   - env:
@@ -28,7 +27,7 @@ builds:
       - -s -w -X {{ .ModulePath }}/cmd/cli.version={{.Version}} -X {{ .ModulePath }}/cmd/cli.name={{.ProjectName}}
     main: .
 checksum:
-  name_template: 'checksums.txt'
+  name_template: "checksums.txt"
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 
@@ -37,8 +36,8 @@ changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
+      - "^docs:"
+      - "^test:"
       - "merge conflict"
       - Merge pull request
       - Merge remote-tracking branch
@@ -46,20 +45,20 @@ changelog:
       - go mod tidy
 
 release:
- disable: false
- name_template: 'v{{ .Version }}'
- github:
-   owner: '{{ .Env.ORG_NAME }}'
-   name: '{{ .ProjectName }}'
+  disable: false
+  name_template: "v{{ .Version }}"
+  github:
+    owner: "{{ .Env.ORG_NAME }}"
+    name: "{{ .ProjectName }}"
 
 nfpms:
-  - file_name_template: '{{ .ConventionalFileName }}'
+  - file_name_template: "{{ .ConventionalFileName }}"
     id: packages
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     description: |-
       A tool to convert between different Software Bill of Materials (SBOM) formats.
     maintainer: Ori Avraham <ori@manifestcyber.com>
-    vendor: '{{ .Env.ORG_NAME }}'
+    vendor: "{{ .Env.ORG_NAME }}"
     bindir: /usr/bin
     section: utils
     contents:
@@ -72,7 +71,7 @@ nfpms:
         file_info:
           mode: 0644
       - src: ./completions/{{ .ProjectName }}.zsh
-        dst:  /usr/share/zsh/vendor-completions/_{{ .ProjectName }}
+        dst: /usr/share/zsh/vendor-completions/_{{ .ProjectName }}
         file_info:
           mode: 0644
       - src: ./manpages/{{ .ProjectName }}.1.gz
@@ -84,12 +83,12 @@ nfpms:
         file_info:
           mode: 0644
     formats:
-    - apk
-    - deb
-    - rpm
-    - archlinux
+      - apk
+      - deb
+      - rpm
+      - archlinux
     dependencies:
-    - git
+      - git
     deb:
       lintian_overrides:
         - statically-linked-binary
@@ -104,8 +103,8 @@ archives:
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
     format_overrides:
-    - goos: windows
-      format: zip
+      - goos: windows
+        format: zip
     builds_info:
       group: root
       owner: root
@@ -118,16 +117,15 @@ archives:
 publishers:
   - name: fury.io
     ids:
-    - packages
+      - packages
     env:
-    - 'FURY_TOKEN={{ .Env.FURY_TOKEN }}'
-    - 'FURY_ORG={{ .Env.ORG_NAME }}'
+      - "FURY_TOKEN={{ .Env.FURY_TOKEN }}"
+      - "FURY_ORG={{ .Env.ORG_NAME }}"
     cmd: ./scripts/fury-upload.sh {{ .ArtifactName }}
 
 scoops:
-  -
-    repository:
-      owner: '{{ .Env.ORG_NAME }}'
+  - repository:
+      owner: "{{ .Env.ORG_NAME }}"
       name: scoop-bucket
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     description: A tool to convert between different Software Bill of Materials (SBOM) formats.
@@ -135,7 +133,7 @@ scoops:
 
 brews:
   - repository:
-      owner: '{{ .Env.ORG_NAME }}'
+      owner: "{{ .Env.ORG_NAME }}"
       name: homebrew-tap
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     goarm: "7"
@@ -150,47 +148,47 @@ brews:
       man1.install "manpages/{{ .ProjectName }}.1.gz"
 
 dockers:
-- image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
-  dockerfile: Dockerfile
-  use: buildx
-  build_flag_templates:
-  - "--pull"
-  - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
-  - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
-  - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
-  - "--label=io.artifacthub.package.license=Apache-2.0"
-  - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
-  - "--label=org.opencontainers.image.created={{.Date}}"
-  - "--label=org.opencontainers.image.name={{.ProjectName}}"
-  - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-  - "--label=org.opencontainers.image.version={{.Version}}"
-  - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
-  - "--platform=linux/amd64"
-- image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
-  dockerfile: Dockerfile
-  use: buildx
-  build_flag_templates:
-  - "--pull"
-  - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
-  - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
-  - "--label=io.artifacthub.package.maintainers=[{\"name\":\"Ori Avraham\",\"email\":\"ori@manifestcyber.com\"}]"
-  - "--label=io.artifacthub.package.license=Apache-2.0"
-  - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
-  - "--label=org.opencontainers.image.created={{.Date}}"
-  - "--label=org.opencontainers.image.name={{.ProjectName}}"
-  - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-  - "--label=org.opencontainers.image.version={{.Version}}"
-  - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
-  - "--platform=linux/arm64"
-  goarch: arm64
+  - image_templates:
+      - "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+      - "--pull"
+      - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
+      - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
+      - '--label=io.artifacthub.package.maintainers=[{"name":"Ori Avraham","email":"ori@manifestcyber.com"}]'
+      - "--label=io.artifacthub.package.license=Apache-2.0"
+      - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.name={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
+      - "--platform=linux/amd64"
+  - image_templates:
+      - "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+      - "--pull"
+      - "--label=io.artifacthub.package.readme-url=https://raw.githubusercontent.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}/main/README.md"
+      - "--label=io.artifacthub.package.logo-url=https://todo.add/file.png"
+      - '--label=io.artifacthub.package.maintainers=[{"name":"Ori Avraham","email":"ori@manifestcyber.com"}]'
+      - "--label=io.artifacthub.package.license=Apache-2.0"
+      - "--label=org.opencontainers.image.description=A tool to convert between different Software Bill of Materials (SBOM) formats."
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.name={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}"
+      - "--platform=linux/arm64"
+    goarch: arm64
 docker_manifests:
-- name_template: 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}'
-  image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
-- name_template: 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:latest'
-  image_templates:
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64'
-  - 'ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64'
+  - name_template: "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}"
+    image_templates:
+      - "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+      - "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
+  - name_template: "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:latest"
+    image_templates:
+      - "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-amd64"
+      - "ghcr.io/{{ .Env.ORG_NAME }}/{{ .ProjectName }}:{{ .Tag }}-arm64"
