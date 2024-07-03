@@ -9,17 +9,18 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/bom-squad/protobom/pkg/formats"
-	"github.com/bom-squad/protobom/pkg/reader"
-	"github.com/bom-squad/protobom/pkg/sbom"
-	"github.com/bom-squad/protobom/pkg/writer"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"go.uber.org/mock/gomock"
 
-	"github.com/bom-squad/sbom-convert/pkg/convert"
-	"github.com/bom-squad/sbom-convert/pkg/convert/mocks"
-	"github.com/bom-squad/sbom-convert/pkg/format"
+	"github.com/protobom/protobom/pkg/formats"
+	"github.com/protobom/protobom/pkg/reader"
+	"github.com/protobom/protobom/pkg/sbom"
+	"github.com/protobom/protobom/pkg/writer"
+
+	"github.com/protobom/sbom-convert/pkg/convert"
+	"github.com/protobom/sbom-convert/pkg/convert/mocks"
+	"github.com/protobom/sbom-convert/pkg/format"
 )
 
 type readSeekerCloser struct {
@@ -103,7 +104,7 @@ func TestService_Convert(t *testing.T) {
 				in:  &readSeekerCloser{},
 				out: &writerCloser{},
 			},
-			mocks: func(in io.ReadSeekCloser, out io.WriteCloser) (*mocks.MockReader, *mocks.MockWriter) {
+			mocks: func(in io.ReadSeekCloser, _ io.WriteCloser) (*mocks.MockReader, *mocks.MockWriter) {
 				mreader := mocks.NewMockReader(ctrl)
 				mreader.EXPECT().ParseStream(in).Return(nil, io.EOF)
 

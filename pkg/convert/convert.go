@@ -4,11 +4,11 @@ import (
 	"context"
 	"io"
 
-	"github.com/bom-squad/protobom/pkg/reader"
-	"github.com/bom-squad/protobom/pkg/writer"
+	"github.com/protobom/protobom/pkg/reader"
+	"github.com/protobom/protobom/pkg/writer"
 
-	"github.com/bom-squad/sbom-convert/pkg/domain"
-	"github.com/bom-squad/sbom-convert/pkg/format"
+	"github.com/protobom/sbom-convert/pkg/domain"
+	"github.com/protobom/sbom-convert/pkg/format"
 )
 
 var _ domain.ConvertService = (*Service)(nil)

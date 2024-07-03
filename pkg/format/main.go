@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/bom-squad/protobom/pkg/formats"
+	"github.com/protobom/protobom/pkg/formats"
 )
 
 var (

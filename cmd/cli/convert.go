@@ -12,9 +12,9 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 
-	"github.com/bom-squad/sbom-convert/cmd/cli/options"
-	"github.com/bom-squad/sbom-convert/pkg/convert"
-	"github.com/bom-squad/sbom-convert/pkg/format"
+	"github.com/protobom/sbom-convert/cmd/cli/options"
+	"github.com/protobom/sbom-convert/pkg/convert"
+	"github.com/protobom/sbom-convert/pkg/format"
 )
 
 var outputDirPermissions = 0o755

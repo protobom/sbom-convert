@@ -36,12 +36,11 @@ binary: ## Build snapshot binaries only
 build: ## Build snapshot release binaries and packages
 	$(call title,Building snapshot artifacts)
 	# build release snapshots
-	ORG_NAME=$(ORG_NAME) BUILD=true BUILD_GIT_TREE_STATE=$(GITTREESTATE) $(TEMPDIR)/goreleaser release --debug ${BUILD:+--skip-publish2} --skip-publish --skip-sign --clean --snapshot --config $(TEMPDIR)/goreleaser.yaml
-
+	ORG_NAME=$(ORG_NAME) BUILD=true BUILD_GIT_TREE_STATE=$(GITTREESTATE) $(TEMPDIR)/goreleaser release --debug ${BUILD:+--skip-publish2} --skip=sign,publish --clean --snapshot --config $(TEMPDIR)/goreleaser.yaml
 
 .PHONY: upstream-protobom
 upstream-protobom: ## Upstream protobom library
-	go get github.com/bom-squad/protobom@main
+	go get github.com/protobom/protobom@main
 
 .PHONY: unittest
 unittest: ## Run unittests

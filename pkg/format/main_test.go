@@ -4,10 +4,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/bom-squad/protobom/pkg/formats"
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/bom-squad/sbom-convert/pkg/format"
+	"github.com/protobom/protobom/pkg/formats"
+
+	"github.com/protobom/sbom-convert/pkg/format"
 )
 
 func Test_Parse(t *testing.T) {
