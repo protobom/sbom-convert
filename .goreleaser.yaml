@@ -1,4 +1,7 @@
+---
 project_name: sbom-convert
+version: 2
+
 before:
   hooks:
     - go mod tidy
@@ -26,8 +29,10 @@ builds:
     ldflags:
       - -s -w -X {{ .ModulePath }}/cmd/cli.version={{.Version}} -X {{ .ModulePath }}/cmd/cli.name={{.ProjectName}}
     main: .
+
 checksum:
   name_template: "checksums.txt"
+
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 
@@ -139,7 +144,7 @@ brews:
     goarm: "7"
     description: A tool to convert between different Software Bill of Materials (SBOM) formats.
     license: Apache-2.0
-    folder: Formula
+    directory: Formula
     install: |-
       bin.install "{{ .ProjectName }}"
       bash_completion.install "completions/{{ .ProjectName }}.bash" => "{{ .ProjectName }}"
