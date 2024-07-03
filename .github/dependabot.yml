@@ -1,3 +1,4 @@
+---
 version: 2
 updates:
   - package-ecosystem: "gomod"
@@ -12,6 +13,11 @@ updates:
       prefix: "chore"
       include: "scope"
     open-pull-requests-limit: 10
+    groups:
+      gomod:
+        update-types:
+          - "patch"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -24,6 +30,12 @@ updates:
       prefix: "chore"
       include: "scope"
     open-pull-requests-limit: 10
+    groups:
+      actions:
+        update-types:
+          - "minor"
+          - "patch"
+
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
