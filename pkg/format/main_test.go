@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-
 	"github.com/protobom/protobom/pkg/formats"
 
 	"github.com/protobom/sbom-convert/pkg/format"

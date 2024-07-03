@@ -10,15 +10,12 @@ linters-settings:
     statements: 50
 
   gci:
-    no-inline-comments: false
-    no-prefix-comments: true
+    skip-generated: true
     sections:
       - standard
       - default
       - prefix(github.com/protobom/sbom-convert)
 
-    section-separators:
-      - newLine
   goimports:
     local-prefixes: github.com/protobom/sbom-convert
   goconst:

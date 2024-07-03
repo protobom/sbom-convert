@@ -11,12 +11,11 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"go.uber.org/mock/gomock"
-
 	"github.com/protobom/protobom/pkg/formats"
 	"github.com/protobom/protobom/pkg/reader"
 	"github.com/protobom/protobom/pkg/sbom"
 	"github.com/protobom/protobom/pkg/writer"
+	"go.uber.org/mock/gomock"
 
 	"github.com/protobom/sbom-convert/pkg/convert"
 	"github.com/protobom/sbom-convert/pkg/convert/mocks"
