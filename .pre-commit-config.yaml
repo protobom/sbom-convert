@@ -15,7 +15,7 @@ repos:
       - id: go-test-mod
 
   - repo: https://github.com/golangci/golangci-lint
-    rev: v1.53.3
+    rev: v1.59.1
     hooks:
       - id: golangci-lint
         args: ["--timeout", "10m", "--fix"]

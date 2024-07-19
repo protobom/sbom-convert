@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/bom-squad/sbom-convert/cmd/cli"
+	"github.com/protobom/sbom-convert/cmd/cli"
 )
 
 func main() {

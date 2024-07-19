@@ -1,6 +1,6 @@
 # SBOM Convert CLI
 
-This reporistory contains a command line interface (cli), based on the [protobom](https://github.com/bom-squad/protobom) library, that converts SBOMs across formats (SPDX and CycloneDX).
+This reporistory contains a command line interface (cli), based on the [protobom](https://github.com/protobom/protobom) library, that converts SBOMs across formats (SPDX and CycloneDX).
 
 ## Usage
 

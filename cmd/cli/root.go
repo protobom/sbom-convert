@@ -11,8 +11,8 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/bom-squad/sbom-convert/cmd/cli/options"
-	"github.com/bom-squad/sbom-convert/pkg/log"
+	"github.com/protobom/sbom-convert/cmd/cli/options"
+	"github.com/protobom/sbom-convert/pkg/log"
 )
 
 var (
@@ -28,7 +28,7 @@ func ManCommand(root *cobra.Command) *cobra.Command {
 		DisableFlagsInUseLine: true,
 		Hidden:                true,
 		Args:                  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			manPage, err := mcobra.NewManPage(1, root)
 			if err != nil {
 				return err
@@ -49,11 +49,11 @@ func NewRootCmd() *cobra.Command {
 		Version: version,
 		Short:   "Convert between CycloneDX into SPDX SBOM",
 		Long:    "Convert between CycloneDX into SPDX SBOM, Bridging the gap between CycloneDX and SPDX",
-		Run:     func(cmd *cobra.Command, args []string) {},
+		Run:     func(_ *cobra.Command, _ []string) {},
 		CompletionOptions: cobra.CompletionOptions{
 			HiddenDefaultCmd: true,
 		},
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			if err := validateRootOptions(ro); err != nil {
 				return err
 			}
