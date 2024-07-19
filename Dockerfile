@@ -1,4 +1,4 @@
-FROM alpine:3.19@sha256:51b67269f354137895d43f3b3d810bfacd3945438e94dc5ac55fdac340352f48 as build
+FROM alpine:3.20@sha256:b89d9c93e9ed3597455c90a0b88a8bbb5cb7188438f70953fede212a0c4394e0 as build
 
 COPY sbom-convert_*.apk /tmp/
 RUN apk add --no-cache --allow-untrusted /tmp/sbom-convert_*.apk
