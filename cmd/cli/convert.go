@@ -17,7 +17,7 @@ import (
 	"github.com/protobom/sbom-convert/pkg/format"
 )
 
-var outputDirPermissions = 0o755
+const outputDirPermissions uint32 = 0o755
 
 func ConvertCommand() *cobra.Command {
 	co := &options.ConvertOptions{}
