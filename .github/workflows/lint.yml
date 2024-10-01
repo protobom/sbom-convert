@@ -22,11 +22,10 @@ jobs:
       - uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
           go-version-file: ./go.mod
-          check-latest: true
           cache: true
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v6
         with:
           args: --timeout=5m
-          version: v1.59
+          version: v1.61.0
