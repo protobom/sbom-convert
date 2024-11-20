@@ -94,7 +94,7 @@ jobs:
 
       - name: test
         run: ./scripts/test.sh
-      - uses: codecov/codecov-action@968872560f81e7bdde9272853e65f2507c0eca7c # v5.0.0
+      - uses: codecov/codecov-action@985343d70564a82044c1b7fcb84c2fa05405c1a2 # v5.0.4
         with:
           files: ./coverage.txt
           token: ${{ secrets.CODECOV_TOKEN }}
