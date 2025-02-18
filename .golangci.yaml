@@ -39,8 +39,6 @@ linters-settings:
       - strings.SplitN
   lll:
     line-length: 140
-  maligned:
-    suggest-new: true
   nolintlint:
     allow-unused: false
     require-explanation: false
@@ -58,7 +56,6 @@ linters:
     - dogsled
     - dupl
     - errcheck
-    - exportloopref
     - exhaustive
     - funlen
     - gochecknoinits
