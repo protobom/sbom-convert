@@ -3,7 +3,7 @@ module github.com/protobom/sbom-convert
 go 1.23.1
 
 require (
-	github.com/google/go-cmp v0.6.0
+	github.com/google/go-cmp v0.7.0
 	github.com/muesli/mango-cobra v1.2.0
 	github.com/muesli/roff v0.1.0
 	github.com/protobom/protobom v0.5.0
