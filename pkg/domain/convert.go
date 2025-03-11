@@ -18,5 +18,5 @@ type Reader interface {
 
 //go:generate mockgen -destination=mocks/mock_writer.go -package=mocks github.com/protobom/sbom-convert/pkg/convert Writer
 type Writer interface {
-	WriteStream(doc *sbom.Document, out io.WriteCloser) error
+	WriteStream(doc *sbom.Document, out io.Writer) error
 }
