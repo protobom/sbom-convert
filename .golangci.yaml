@@ -1,75 +1,26 @@
-linters-settings:
-  depguard:
-    rules:
-      main:
-        deny:
-          - pkg: "github.com/pkg/errors"
-            desc: "use stdlib instead"
-  funlen:
-    lines: -1
-    statements: 50
-
-  gci:
-    skip-generated: true
-    sections:
-      - standard
-      - default
-      - prefix(github.com/protobom/sbom-convert)
-
-  goimports:
-    local-prefixes: github.com/protobom/sbom-convert
-  goconst:
-    min-len: 2
-    min-occurrences: 2
-
-  gocyclo:
-    min-complexity: 15
-  mnd:
-    checks:
-      - argument
-      - case
-      - condition
-      - return
-    ignored-numbers:
-      - "0"
-      - "1"
-      - "2"
-      - "3"
-    ignored-functions:
-      - strings.SplitN
-  lll:
-    line-length: 140
-  maligned:
-    suggest-new: true
-  nolintlint:
-    allow-unused: false
-    require-explanation: false
-    require-specific: false
-  dupl:
-    # tokens count to trigger issue, 150 by default
-    threshold: 250
-
+version: "2"
 linters:
-  disable-all: true
+  default: none
   enable:
-    # - goimports
+    - asciicheck
     - bodyclose
     - depguard
     - dogsled
     - dupl
     - errcheck
-    - exportloopref
+    - errorlint
     - exhaustive
+    - forbidigo
     - funlen
     - gochecknoinits
+    - gocognit
     - goconst
     - gocritic
     - gocyclo
-    - gci
     - goprintffuncname
     - gosec
-    - gosimple
     - govet
+    - importas
     - ineffassign
     - lll
     - misspell
@@ -77,47 +28,90 @@ linters:
     - nakedret
     - noctx
     - nolintlint
+    - prealloc
+    - revive
     - rowserrcheck
     - staticcheck
-    - stylecheck
-    - typecheck
+    - tparallel
     - unconvert
     - unparam
     - unused
     - whitespace
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - mnd
+        path: _test\.go
+    paths:
+      - cmd/cli/testdata
+      - third_party$
+      - builtin$
+      - examples$
+  settings:
+    depguard:
+      rules:
+        main:
+          deny:
+            - pkg: "github.com/pkg/errors"
+              desc: "use stdlib instead"
+    funlen:
+      lines: -1
+      statements: 50
+
+    goconst:
+      min-len: 2
+      min-occurrences: 2
+
+    gocyclo:
+      min-complexity: 15
+    mnd:
+      checks:
+        - argument
+        - case
+        - condition
+        - return
+      ignored-numbers:
+        - "0"
+        - "1"
+        - "2"
+        - "3"
+      ignored-functions:
+        - strings.SplitN
+    lll:
+      line-length: 140
+    nolintlint:
+      allow-unused: false
+      require-explanation: false
+      require-specific: false
+    dupl:
+      # tokens count to trigger issue, 150 by default
+      threshold: 250
+
+formatters:
+  enable:
+    - gci
     - gofumpt
-    - revive
-    - gocognit
-    - asciicheck
-    - errorlint
-    - forbidigo
-    - importas
-    - prealloc
-    - tparallel
-  # don't enable:
-  # - scopelint
-  # - gochecknoglobals
-  # - godot
-  # - godox
-  # - goerr113
-  # - interfacer
-  # - maligned
-  # - nestif
-  # - goimports
-  # - testpackage
-  # - golint (replaced by revive)
-  # - wsl
-  # - structcheck
-  # - varcheck
-  # - deadcode
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/protobom/sbom-convert
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/protobom/sbom-convert)
 
-issues:
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - gomnd
-  exclude-dirs:
-    - cmd/cli/testdata
-
-run:
-  timeout: 5m
+  exclusions:
+    generated: lax
+    paths:
+      - cmd/cli/testdata
+      - third_party$
+      - builtin$
+      - examples$
