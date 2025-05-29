@@ -1,6 +1,6 @@
 module github.com/protobom/sbom-convert
 
-go 1.23.1
+go 1.23.9
 
 require (
 	github.com/google/go-cmp v0.7.0
