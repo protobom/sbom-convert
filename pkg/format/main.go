@@ -54,7 +54,7 @@ type Format struct {
 }
 
 // Parse parses the format string into a formats.Format
-func Parse(fs string, encoding string) (*Format, error) {
+func Parse(fs, encoding string) (*Format, error) {
 	if fs == "" {
 		return nil, errors.New("no format specified")
 	}
@@ -126,6 +126,6 @@ func (f *Format) Inverse() (*Format, error) {
 	return nil, errors.New("SBOM format unknown")
 }
 
-func (f Format) String() string {
+func (f *Format) String() string {
 	return string(f.Format)
 }

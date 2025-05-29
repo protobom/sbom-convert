@@ -14,7 +14,7 @@ func WithLevel(level zapcore.Level) Option {
 		l.atom.SetLevel(level)
 
 		if level == zap.DebugLevel {
-			l.Logger = *l.Logger.WithOptions(zap.AddCaller())
+			l.Logger = *l.WithOptions(zap.AddCaller())
 		}
 	}
 }
