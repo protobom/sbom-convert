@@ -38,13 +38,14 @@ func (wc *writerCloser) Close() error {
 	return nil
 }
 
-func readJSON(t *testing.T, dir string, path string) (res string) {
+func readJSON(t *testing.T, dir, path string) (res string) {
 	t.Helper()
 
+	//nolint:gosec
 	if f, err := os.Open(filepath.Join(dir, path)); err != nil {
 		t.Fatal(err)
 	} else {
-		defer f.Close()
+		defer f.Close() //nolint:errcheck
 
 		buf := &bytes.Buffer{}
 		if _, err := io.Copy(buf, f); err != nil {

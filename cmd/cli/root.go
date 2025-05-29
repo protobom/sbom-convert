@@ -87,7 +87,7 @@ func setupLogger(ro *options.RootOptions) error {
 	//nolint:gosec
 	// verbose is always within the range of int8
 	level := zapcore.Level(int(zap.WarnLevel) - ro.Verbose)
-	log, err := log.NewLogger(
+	logger, err := log.NewLogger(
 		log.WithLevel(level),
 		log.WithGlobalLogger(),
 	)
@@ -95,6 +95,6 @@ func setupLogger(ro *options.RootOptions) error {
 		return err
 	}
 
-	log.Debug("logger initialized")
+	logger.Debug("logger initialized")
 	return nil
 }

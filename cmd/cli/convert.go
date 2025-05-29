@@ -70,7 +70,7 @@ func runConvert(ctx context.Context, co *options.ConvertOptions, args []string) 
 		return err
 	}
 
-	defer f.Close()
+	defer f.Close() //nolint:errcheck
 
 	frmt, err := parseFormat(co.Format, co.Encoding, f)
 	if err != nil {
@@ -94,7 +94,7 @@ func runConvert(ctx context.Context, co *options.ConvertOptions, args []string) 
 	)
 
 	if err := cs.Convert(ctx, f, out); err != nil {
-		out.Close()
+		out.Close() //nolint:errcheck,gosec
 
 		if !overwrited {
 			return err
@@ -123,12 +123,12 @@ func parseFormat(f, e string, r io.ReadSeekCloser) (*format.Format, error) {
 		return df.Inverse()
 	}
 
-	format, err := format.Parse(f, e)
+	sbomfmt, err := format.Parse(f, e)
 	if err != nil {
 		return nil, err
 	}
 
-	return format, nil
+	return sbomfmt, nil
 }
 
 func createOutputStream(out string, frmt *format.Format) (io.WriteCloser, *string, error) {
@@ -145,7 +145,7 @@ func createOutputStream(out string, frmt *format.Format) (io.WriteCloser, *strin
 		return nil, nil, err
 	}
 
-	o, err := os.Create(filepath.Join(dir, output))
+	o, err := os.Create(filepath.Join(dir, output)) //nolint:gosec // This is supposed to read from user input
 	log.Debugf("creating output file: %s", output)
 	if err != nil {
 		return nil, nil, err

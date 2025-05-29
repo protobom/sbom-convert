@@ -41,11 +41,11 @@ func BindConfig(v *viper.Viper, cmd *cobra.Command) error {
 func bindFlags(cmd *cobra.Command, v *viper.Viper) {
 	cmd.Flags().VisitAll(func(f *pflag.Flag) {
 		if strings.Contains(f.Name, "-") {
-			_ = v.BindEnv(f.Name, flagToEnvVar(f.Name))
+			_ = v.BindEnv(f.Name, flagToEnvVar(f.Name)) //nolint:errcheck
 		}
 		if !f.Changed && v.IsSet((f.Name)) {
 			val := v.Get(f.Name)
-			_ = cmd.Flags().Set(f.Name, fmt.Sprintf("%v", val))
+			_ = cmd.Flags().Set(f.Name, fmt.Sprintf("%v", val)) //nolint:errcheck
 		}
 	})
 }
