@@ -40,7 +40,7 @@ func (m *MockWriter) EXPECT() *MockWriterMockRecorder {
 }
 
 // WriteStream mocks base method.
-func (m *MockWriter) WriteStream(arg0 *sbom.Document, arg1 io.WriteCloser) error {
+func (m *MockWriter) WriteStream(arg0 *sbom.Document, arg1 io.Writer) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WriteStream", arg0, arg1)
 	ret0, _ := ret[0].(error)

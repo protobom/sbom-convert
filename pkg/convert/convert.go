@@ -41,7 +41,7 @@ func NewService(opts ...Option) *Service {
 
 type Option func(s *Service)
 
-func (s *Service) Convert(_ context.Context, in io.ReadSeekCloser, out io.WriteCloser) error {
+func (s *Service) Convert(_ context.Context, in io.ReadSeekCloser, out io.Writer) error {
 	doc, err := s.r.ParseStream(in)
 	if err != nil {
 		return err
