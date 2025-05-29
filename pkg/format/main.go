@@ -26,6 +26,7 @@ var (
 		"cyclonedx-1.3": formats.CDX13JSON,
 		"cyclonedx-1.4": formats.CDX14JSON,
 		"cyclonedx-1.5": formats.CDX15JSON,
+		"cyclonedx-1.6": formats.CDX16JSON,
 	}
 
 	TVFormatMap = map[string]formats.Format{
