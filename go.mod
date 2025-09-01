@@ -8,7 +8,7 @@ require (
 	github.com/muesli/roff v0.1.0
 	github.com/protobom/protobom v0.5.4
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.7
+	github.com/spf13/pflag v1.0.9
 	github.com/spf13/viper v1.20.1
 	go.uber.org/mock v0.6.0
 	go.uber.org/zap v1.27.0
