@@ -105,12 +105,24 @@ jobs:
           go get -u github.com/quasilyte/go-ruleguard/dsl@latest
           ruleguard -c=0 -rules ../rules/ruleguard.rules.go ./...
 
-  test:
+  go-test:
     needs: resolve-versions
-    runs-on: ubuntu-latest
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+      fail-fast: false
 
     permissions:
       contents: read
+
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -138,3 +150,20 @@ jobs:
 
       - name: test
         run: ./scripts/test.sh
+
+  # The merge gate ruleset requires a check named "test". The matrix legs
+  # report as "test (<os>)", so fan them back into that single status.
+  test:
+    needs: go-test
+    if: always()
+    runs-on: ubuntu-latest
+
+    permissions: {}
+
+    steps:
+      - name: Check matrix result
+        env:
+          RESULT: ${{ needs.go-test.result }}
+        run: |
+          echo "go-test matrix result: $RESULT"
+          test "$RESULT" = "success"

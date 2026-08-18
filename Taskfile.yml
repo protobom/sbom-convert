@@ -26,9 +26,6 @@ tasks:
 
   test:
     desc: Run tests
-    env:
-      GOARCH: amd64
-      GOOS: linux
     vars:
       TEST_OPTIONS: '{{default "" .TEST_OPTIONS}}'
       TEST_SOURCES: '{{default "./..." .TEST_SOURCES}}'
