@@ -16,7 +16,7 @@ require (
 
 require (
 	github.com/CycloneDX/cyclonedx-go v0.11.0 // indirect
-	github.com/anchore/go-struct-converter v0.2.1 // indirect
+	github.com/anchore/go-struct-converter v0.1.0 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clipperhouse/displaywidth v0.10.0 // indirect
