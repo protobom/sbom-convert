@@ -11,7 +11,26 @@ on:
 permissions: {}
 
 jobs:
+  resolve-versions:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    outputs:
+      stable: ${{ steps.versions.outputs.GO_MINOR_VERSION_STABLE }}
+
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - name: Determine Go versions
+        id: versions
+        uses: carabiner-dev/actions/go/versions@36a39ef667efe7112df8b1a534a4e37f35fad6fd # v1.2.6
+
   golangci:
+    needs: resolve-versions
     name: lint
     runs-on: ubuntu-latest
 
@@ -24,14 +43,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          go-version-file: './.go-version'
+          go-version: ${{ needs.resolve-versions.outputs.stable }}
           check-latest: true
           cache: false
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
+        uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.3.0
         with:
           args: --timeout=5m
-          version: v2.7
+          version: v2.12

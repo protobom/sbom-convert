@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 
 	"github.com/protobom/sbom-convert/cmd/cli/options"
 	"github.com/protobom/sbom-convert/pkg/log"
@@ -84,8 +83,15 @@ func validateRootOptions(_ *options.RootOptions) error {
 }
 
 func setupLogger(ro *options.RootOptions) error {
-	// verbose is always within the range of int8
-	level := zapcore.Level(int(zap.WarnLevel) - ro.Verbose)
+	// -v selects info, -vv selects debug. Anything beyond that stays at debug,
+	// zap's lowest level, so the int8-backed zapcore.Level can never overflow.
+	level := zap.WarnLevel
+	switch {
+	case ro.Verbose >= 2:
+		level = zap.DebugLevel
+	case ro.Verbose == 1:
+		level = zap.InfoLevel
+	}
 	logger, err := log.NewLogger(
 		log.WithLevel(level),
 		log.WithGlobalLogger(),
