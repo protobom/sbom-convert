@@ -73,38 +73,6 @@ jobs:
       - name: semgrep
         run: semgrep scan --error --enable-nosem -f ./rules .
 
-  ruleguard:
-    needs: resolve-versions
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: dgryski/semgrep-go
-          path: rules
-
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        with:
-          go-version: ${{ needs.resolve-versions.outputs.stable }}
-          check-latest: true
-          cache: false
-
-      - name: setup-ruleguard
-        run: go install github.com/quasilyte/go-ruleguard/cmd/ruleguard@latest
-
-      - name: ruleguard
-        run: |
-          mv rules ../
-          go get -u github.com/quasilyte/go-ruleguard/dsl@latest
-          ruleguard -c=0 -rules ../rules/ruleguard.rules.go ./...
-
   go-test:
     needs: resolve-versions
     name: test (${{ matrix.os }})

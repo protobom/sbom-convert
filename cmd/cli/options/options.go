@@ -43,7 +43,7 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) {
 		if strings.Contains(f.Name, "-") {
 			_ = v.BindEnv(f.Name, flagToEnvVar(f.Name)) //nolint:errcheck
 		}
-		if !f.Changed && v.IsSet((f.Name)) {
+		if !f.Changed && v.IsSet(f.Name) {
 			val := v.Get(f.Name)
 			_ = cmd.Flags().Set(f.Name, fmt.Sprintf("%v", val)) //nolint:errcheck
 		}
