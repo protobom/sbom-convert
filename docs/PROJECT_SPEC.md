@@ -29,7 +29,7 @@ Inputs
     - Files must be valid (CDX || SPDX) SBOM
     - To start, the cli will only accept one input at a time
 - `-e`, `--encoding`: (string) The output encoding [spdx: [text, json] cyclonedx: [json] (default "json")]
-- `-f`, `--format`: (string) The output format [spdx, spdx-2.3, cyclonedx, cyclonedx-1.4]
+- `-f`, `--format`: (string) The output format [spdx, spdx-2.2, spdx-2.3, spdx3, spdx-3.0.1, cyclonedx, cyclonedx-1.0 through cyclonedx-1.7]. Plain `spdx` selects the latest SPDX 2.x (2.3); `spdx3` selects SPDX 3.0.1
 - `-h`, `--help`:` help for convert
 - `-o`, `--output`:  (string) Path to write the converted SBOM. Default: stdout. If just a string is provided, the cli will append ".json" by default. Otherwise, users can specify full filenames+extensions, like myBom.spdx.
 
