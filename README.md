@@ -19,7 +19,7 @@ The `convert` command takes in a single - as of now - json file in either SPDX o
 ### Flags
 
 - `-e`, `--encoding`: (string, optional) The output encoding [spdx: [text, json] cyclonedx: [json] (default "json")
-- `-f`, `--format`: (string, Required) The output format [spdx, spdx-2.3, cyclonedx, cyclonedx-1.4]
+- `-f`, `--format`: (string, Required) The output format [spdx, spdx-2.2, spdx-2.3, spdx3, spdx-3.0.1, cyclonedx, cyclonedx-1.0 through cyclonedx-1.7]. Plain `spdx` selects the latest SPDX 2.x (2.3); `spdx3` selects SPDX 3.0.1
 - `-h`, `--help`:` help for convert
 - `-o`, `--output`: (string, optional) Path to write the converted SBOM. Default: stdout. A user can provide just a string for the filename (e.g "mybom"), which will create a file `mybom.json`. Users can also specify an SPDX tag-value format, e.g. `myBOM.spdx`.
 

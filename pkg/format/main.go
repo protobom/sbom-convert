@@ -13,11 +13,17 @@ var (
 	DefaultEncoding         = formats.JSON
 	DefaultSPDXJSONVersion  = formats.SPDX23JSON
 	DefaultSPDXTVVersion    = formats.SPDX23TV
+	DefaultSPDX3Version     = formats.SPDX3JSON
 	DefaultCycloneDXVersion = formats.CDX15JSON
 	JSONFormatMap           = map[string]formats.Format{
 		"spdx":     formats.SPDXFORMAT,
 		"spdx-2.2": formats.SPDX22JSON,
 		"spdx-2.3": formats.SPDX23JSON,
+
+		"spdx3":      formats.SPDX3JSON,
+		"spdx-3":     formats.SPDX3JSON,
+		"spdx-3.0":   formats.SPDX3JSON,
+		"spdx-3.0.1": formats.SPDX3JSON,
 
 		"cyclonedx":     formats.CDXFORMAT,
 		"cyclonedx-1.0": formats.CDX10JSON,
@@ -27,6 +33,7 @@ var (
 		"cyclonedx-1.4": formats.CDX14JSON,
 		"cyclonedx-1.5": formats.CDX15JSON,
 		"cyclonedx-1.6": formats.CDX16JSON,
+		"cyclonedx-1.7": formats.CDX17JSON,
 	}
 
 	TVFormatMap = map[string]formats.Format{
@@ -109,6 +116,9 @@ func Detect(f io.ReadSeeker) (*Format, error) {
 	return &Format{format}, nil
 }
 
+// Inverse returns the format to convert to when none is specified. SPDX
+// documents (2.x and 3.x) invert to CycloneDX; CycloneDX documents invert
+// to SPDX 3 when JSON-encoded and to SPDX 2 tag-value otherwise.
 func (f *Format) Inverse() (*Format, error) {
 	switch f.Type() {
 	case formats.SPDXFORMAT:
@@ -116,7 +126,7 @@ func (f *Format) Inverse() (*Format, error) {
 	case formats.CDXFORMAT:
 		encoding := f.Encoding()
 		if encoding == formats.JSON {
-			return &Format{DefaultSPDXJSONVersion}, nil
+			return &Format{DefaultSPDX3Version}, nil
 		}
 		if encoding == formats.TEXT {
 			return &Format{DefaultSPDXTVVersion}, nil
