@@ -1,27 +1,9 @@
 name: release
 
 on:
-  workflow_dispatch:
-    inputs:
-      release-as:
-        description: "semver type of the release"
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
-        default: none
-        required: true
-      prerelease:
-        description: "release as prerelease"
-        type: boolean
-        required: true
-        default: true
-      prerelease-suffix:
-        description: suffix for your prerelease versions
-        type: string
-        required: false
-        default: beta
+  push:
+    tags:
+      - "v*"
 
 permissions: {}
 
@@ -66,17 +48,6 @@ jobs:
 
       - name: Fetch tags
         run: git fetch --force --tags
-
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8 # 1.75.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BUMP: ${{ inputs.release-as }}
-          PRERELEASE: ${{ inputs.prerelease }}
-          PRERELEASE_SUFFIX: ${{ inputs.prerelease-suffix }}
-          VERBOSE: true
-          DRY_RUN: false
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3

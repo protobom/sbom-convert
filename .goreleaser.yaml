@@ -51,6 +51,7 @@ changelog:
 
 release:
   disable: false
+  prerelease: auto
   name_template: "v{{ .Version }}"
   github:
     owner: "{{ .Env.ORG_NAME }}"
