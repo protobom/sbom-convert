@@ -57,6 +57,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           ORG_NAME: ${{ github.repository_owner }}
 
       - name: Upload assets
