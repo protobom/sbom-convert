@@ -133,6 +133,7 @@ scoops:
   - repository:
       owner: "{{ .Env.ORG_NAME }}"
       name: scoop-bucket
+      token: "{{ .Env.GH_TOKEN }}"
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     description: A tool to convert between different Software Bill of Materials (SBOM) formats.
     license: Apache-2.0
@@ -141,6 +142,7 @@ brews:
   - repository:
       owner: "{{ .Env.ORG_NAME }}"
       name: homebrew-tap
+      token: "{{ .Env.GH_TOKEN }}"
     homepage: https://github.com/{{ .Env.ORG_NAME }}/{{ .ProjectName }}
     goarm: "7"
     description: A tool to convert between different Software Bill of Materials (SBOM) formats.
